@@ -1,12 +1,32 @@
 // Generado desde PEDIDOS-Productos.xlsx. Solo nombre, precio y categoría. Sin costos, sin stock.
 const CATALOGO = [
  {
-  "n": "DETERGENTE",
+  "n": "GLADE SPRAY LAVANDA 240ML X2",
+  "p": 3000,
+  "c": "Limpieza"
+ },
+ {
+  "n": "GLADE SPRAY LAVANDA 240ML",
+  "p": 1700,
+  "c": "Limpieza"
+ },
+ {
+  "n": "SCOTT PAPEL HIGIENICO 2 PACK",
+  "p": 3000,
+  "c": "Limpieza"
+ },
+ {
+  "n": "SCOTT PAPEL HIGIENICO X6",
+  "p": 2000,
+  "c": "Limpieza"
+ },
+ {
+  "n": "DETERGENTE FUZOL",
   "p": 4000,
   "c": "Limpieza"
  },
  {
-  "n": "DETERGENTE 2x",
+  "n": "DETERGENTE FUZOL 2x",
   "p": 7000,
   "c": "Limpieza"
  },
@@ -67,7 +87,7 @@ const CATALOGO = [
  },
  {
   "n": "DESENGRASANTE WINNEX",
-  "p": 1400,
+  "p": 1500,
   "c": "Limpieza"
  },
  {
@@ -102,7 +122,7 @@ const CATALOGO = [
  },
  {
   "n": "ALUSA FILM 20 MTS",
-  "p": 1290,
+  "p": 1000,
   "c": "Cocina"
  },
  {
@@ -127,7 +147,7 @@ const CATALOGO = [
  },
  {
   "n": "CIF CREMA 750 TRADICIONAL",
-  "p": 1800,
+  "p": 2000,
   "c": "Limpieza"
  },
  {
@@ -162,7 +182,7 @@ const CATALOGO = [
  },
  {
   "n": "ESPONJA ACANALADA",
-  "p": 350,
+  "p": 250,
   "c": "Accesorios"
  },
  {
@@ -207,7 +227,7 @@ const CATALOGO = [
  },
  {
   "n": "SERVILLETA GIULIETTA CÓCTEL 300",
-  "p": 1300,
+  "p": 1000,
   "c": "Papel"
  },
  {
