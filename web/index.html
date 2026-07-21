@@ -731,7 +731,10 @@ footer{background:var(--negro);color:#fff;padding:56px 0 30px;margin-top:60px;po
   .conf{grid-template-columns:1fr;gap:8px}
   .cf{padding:12px 14px}
   .cats{grid-template-columns:repeat(2,1fr)}
-  .packs{grid-template-columns:1fr}
+  
+  /* UX Móvil: Directo al grano y sin lag */
+  .burbujas, .aurora { display: none !important; }
+  .hero, section:has(.conf), section:has(#packs) { display: none !important; }
   .pasos{grid-template-columns:1fr}
   .zona{grid-template-columns:1fr}
   .z-izq,.z-der{padding:24px}
