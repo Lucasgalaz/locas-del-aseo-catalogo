@@ -722,11 +722,19 @@ footer{background:var(--negro);color:#fff;padding:56px 0 30px;margin-top:60px;po
   .buscador{margin-bottom:2px}
   header{top:0}
   .catbar{top:auto;position:relative}
+  .hero{grid-template-columns:1fr;padding:16px 0 8px}
+  .h-izq,.h-der{min-height:auto;padding:26px 20px}
+  .h-der{min-height:300px}
+  .h-izq h1{font-size:32px}
+  .h-izq .sub{font-size:14.5px}
   .hd{padding:34px 0 14px}
   .conf{grid-template-columns:1fr;gap:8px}
   .cf{padding:12px 14px}
   .cats{grid-template-columns:repeat(2,1fr)}
   .packs{grid-template-columns:1fr}
+  .pasos{grid-template-columns:1fr}
+  .zona{grid-template-columns:1fr}
+  .z-izq,.z-der{padding:24px}
   .grid{gap:10px;grid-template-columns:repeat(2,1fr)}
   .card{padding:7px;border-radius:16px}
   .nm{font-size:12.5px}
@@ -736,8 +744,11 @@ footer{background:var(--negro);color:#fff;padding:56px 0 30px;margin-top:60px;po
   .tools .tl{flex:1 0 100%}
   .rng{flex:1;width:auto}
   .cart{width:100%}
-  .ft{grid-template-columns:1fr}
-  .z-izq,.z-der{padding:26px}
+  .ficha{grid-template-columns:1fr;max-height:85vh;overflow-y:auto;align-content:start}
+  .ficha-ph{min-height:240px;height:280px}
+  .ficha-in{overflow:visible;padding:22px 20px}
+  .ficha-in h2{font-size:22px}
+  .ft{grid-template-columns:1fr;gap:22px}
   .toasts{z-index:130}
 }
 @media(prefers-reduced-motion:reduce){
