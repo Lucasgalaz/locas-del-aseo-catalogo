@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#14111A">
 <title>Las Locas del Aseo — El aseo del mes, en tu puerta hoy</title>
-<meta name="description" content="Limpieza, lavandería, papel, cocina, higiene y mascotas. Pides por WhatsApp y te llega el mismo día. Despacho gratis sobre $30.000 en Peñalolén y Macul.">
+<meta name="description" content="Limpieza, lavandería, papel, cocina, higiene y mascotas. Pides por WhatsApp y te llega el mismo día. Despacho gratis sobre $30.000 en Peñalolén, Macul y La Reina.">
 
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="assets/favicon.png" sizes="32x32">
@@ -830,7 +830,7 @@ footer{background:var(--negro);color:#fff;padding:56px 0 30px;margin-top:60px;po
     </div>
     <div class="cf rv">
       <span class="ci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span>
-      <div><b>Despacho gratis</b><small>Sobre $30.000 en tu comuna.</small></div>
+      <div><b>Despacho gratis</b><small>Sobre $30.000 en Peñalolén, Macul y La Reina.</small></div>
     </div>
     <div class="cf rv">
       <span class="ci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg></span>
@@ -1079,7 +1079,7 @@ footer{background:var(--negro);color:#fff;padding:56px 0 30px;margin-top:60px;po
 const WHATSAPP    = "56992513608";
 const ENVIO_MIN   = 30000;
 const ENVIO_COSTO = 2500;
-const COMUNAS     = ["Peñalolén","Macul"];
+const COMUNAS     = ["Peñalolén","Macul","La Reina"];
 
 /* Reparto: 0=domingo … 6=sábado */
 const CORTE_HORA   = 18;
@@ -1120,7 +1120,7 @@ const VITRINA = [
 
 const FAQ = [
   { q:"¿Cuánto se demora en llegar?", r:"Si pides antes de las 18:00 de lunes a sábado, te llega el mismo día. Después de esa hora, a primera hora del día siguiente. Te confirmamos por WhatsApp apenas recibimos el pedido." },
-  { q:"¿Cuánto cuesta el despacho?", r:"Sobre $30.000 es gratis en Peñalolén y Macul. Bajo ese monto son $2.500. Para otras comunas despachamos vía Courier (BlueExpress, Starken o Correos). Costos referenciales: Provincia de Santiago desde $2.990, Periferia Urbana desde $3.150, Rural/Lejana desde $4.000." },
+  { q:"¿Cuánto cuesta el despacho?", r:"Sobre $30.000 es gratis en Peñalolén, Macul y La Reina. Bajo ese monto son $2.500. Para otras comunas despachamos vía Courier (BlueExpress, Starken o Correos). Costos referenciales: Provincia de Santiago desde $2.990, Periferia Urbana desde $3.150, Rural/Lejana desde $4.000." },
   { q:"¿Cómo pago?", r:"Al recibir, en efectivo o por transferencia. Elige la forma en el carro y queda anotada en el pedido. El pago con tarjeta en la web viene más adelante." },
   { q:"¿Necesito crear una cuenta?", r:"No. Armas el carro, tocas enviar y el pedido se escribe solo en tu WhatsApp. Nada de registros ni contraseñas." },
   { q:"¿Puedo pedir algo que no está en el catálogo?", r:"Sí. Escríbenos por WhatsApp y te decimos si lo conseguimos y a qué precio." },
@@ -1311,9 +1311,9 @@ const revela = sel => document.querySelectorAll(sel).forEach((e,i) => { e.datase
 /* ═════ TICKER ═════ */
 const FRASES = [
   "✨ Que no falte el brillo",
-  "Despacho <b>gratis</b> sobre $30.000 (Peñalolén/Macul)",
+  "Despacho <b>gratis</b> sobre $30.000 (Peñalolén/Macul/La Reina)",
   "🫧 Ahorra sin dejar de brillar",
-  "Peñalolén · Macul · Envíos a todo Santiago",
+  "Peñalolén · Macul · La Reina · Envíos a todo Santiago",
   "<b>Llega el mismo día</b>",
   "Pagas al recibir · efectivo o transferencia",
 ].join(" &nbsp;·&nbsp; ") + " &nbsp;·&nbsp; ";
