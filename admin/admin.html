@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="es-CL">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Locas del Aseo — Panel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box}
+  body{margin:0;background:#eef3f2;font-family:'Nunito Sans',sans-serif;color:#22333a;}
+  h1{font-family:'Quicksand',sans-serif;font-size:20px;margin:0;}
+  header{position:sticky;top:0;z-index:10;background:#fff;border-bottom:1px solid #dde7e5;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;}
+  .sub{font-size:12.5px;color:#6b7c80;margin-top:2px;}
+  .wrap{max-width:1100px;margin:0 auto;padding:16px 20px 100px;}
+  input, select{font:inherit;border:1px solid #cddcda;border-radius:8px;padding:7px 9px;background:#fff;color:#22333a;}
+  input:focus, select:focus{outline:2px solid #3ba784;outline-offset:1px;}
+  button{font:inherit;cursor:pointer;border:none;border-radius:8px;}
+  #buscar{width:100%;max-width:340px;padding:9px 12px;font-size:14px;}
+  .toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:14px 0;}
+  .btn-primario{background:#0f6e56;color:#fff;font-weight:700;padding:9px 16px;border-radius:10px;}
+  .btn-primario:hover{background:#0b5945}
+  .btn-secundario{background:#fff;color:#0f6e56;border:1.5px solid #0f6e56;font-weight:700;padding:8px 15px;border-radius:10px;}
+  .conteo{font-size:13px;color:#4a5b5f;}
+  .conteo b{color:#0f6e56}
+  table{width:100%;border-collapse:separate;border-spacing:0 8px;}
+  thead th{text-align:left;font-size:11.5px;text-transform:uppercase;letter-spacing:.03em;color:#6b7c80;padding:0 10px;font-weight:700;}
+  tbody tr{background:#fff;}
+  tbody td{padding:8px 10px;vertical-align:middle;border-top:1px solid #e4ece9;border-bottom:1px solid #e4ece9;}
+  tbody td:first-child{border-left:1px solid #e4ece9;border-radius:12px 0 0 12px;}
+  tbody td:last-child{border-right:1px solid #e4ece9;border-radius:0 12px 12px 0;}
+  tr.sin-foto td:first-child{background:#fff7ec;}
+  .foto-cel{width:64px;height:64px;border-radius:10px;background:#f1f5f4;position:relative;overflow:hidden;cursor:pointer;border:1.5px dashed #cddcda;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .foto-cel img{width:100%;height:100%;object-fit:contain;background:#fff;}
+  .foto-cel .marca{font-size:9.5px;color:#8a9a97;text-align:center;line-height:1.2;padding:2px;}
+  .foto-cel input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;}
+  .nombre-in{width:100%;min-width:190px;font-weight:600;}
+  .precio-in{width:100px;text-align:right;}
+  .cat-in{min-width:140px;}
+  .fila-acciones{display:flex;gap:6px;align-items:center;}
+  .icon-btn{background:transparent;color:#8a3b3b;font-size:16px;padding:6px;border-radius:8px;}
+  .icon-btn:hover{background:#fbeaea}
+  .estado-foto{font-size:10.5px;margin-top:3px;color:#0f6e56;font-weight:700;min-height:13px;}
+  .estado-foto.error{color:#a33636}
+  #toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(30px);opacity:0;background:#22333a;color:#fff;padding:12px 20px;border-radius:12px;font-size:13.5px;font-weight:600;box-shadow:0 8px 24px rgba(0,0,0,.25);transition:all .25s ease;pointer-events:none;z-index:50;max-width:90vw;text-align:center;}
+  #toast.on{opacity:1;transform:translateX(-50%) translateY(0);}
+  #toast.error{background:#8a3b3b;}
+  .barra-guardar{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid #dde7e5;padding:12px 20px;display:flex;justify-content:center;box-shadow:0 -6px 20px rgba(0,0,0,.05);}
+  .barra-guardar .contenido{max-width:1100px;width:100%;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;}
+  .cambios{font-size:12.5px;color:#a3691f;font-weight:700;}
+</style>
+</head>
+<body>
+<header>
+  <div>
+    <h1>🫧 Locas del Aseo — Panel</h1>
+    <div class="sub">Editar nombres, precios, categorías y fotos del catálogo</div>
+  </div>
+  <input id="buscar" placeholder="Buscar producto…">
+</header>
+
+<div class="wrap">
+  <div class="toolbar">
+    <button class="btn-secundario" id="agregar">+ Agregar producto</button>
+    <span class="conteo" id="conteo"></span>
+  </div>
+
+  <table>
+    <thead>
+      <tr><th>Foto</th><th>Producto</th><th>Precio</th><th>Categoría</th><th></th></tr>
+    </thead>
+    <tbody id="filas"></tbody>
+  </table>
+</div>
+
+<div class="barra-guardar">
+  <div class="contenido">
+    <span class="cambios" id="cambios"></span>
+    <button class="btn-primario" id="guardar">Guardar cambios</button>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+"use strict";
+let CATEGORIAS = [];
+let FOTOS = new Set();
+let filas = []; // {n,p,c, _fila: <tr>}
+let sucio = false;
+
+const $ = s => document.querySelector(s);
+const clp = n => "$" + (Number(n) || 0).toLocaleString("es-CL");
+const slug = s => s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "")
+                   .replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+
+function toast(msg, error) {
+  const t = $("#toast");
+  t.textContent = msg;
+  t.className = error ? "on error" : "on";
+  clearTimeout(toast._h);
+  toast._h = setTimeout(() => t.className = "", 2600);
+}
+
+function marcarSucio() {
+  sucio = true;
+  $("#cambios").textContent = "Tienes cambios sin guardar";
+}
+
+async function cargar() {
+  const r = await fetch("/api/productos");
+  const d = await r.json();
+  CATEGORIAS = d.categorias;
+  FOTOS = new Set(d.fotos);
+  filas = d.productos.map(p => ({ ...p }));
+  dibujar();
+}
+
+function dibujar(filtro) {
+  const q = (filtro || "").trim().toLowerCase();
+  const tbody = $("#filas");
+  tbody.innerHTML = "";
+  let visibles = 0, sinFoto = 0;
+  filas.forEach((p, i) => {
+    const tieneFoto = FOTOS.has(slug(p.n));
+    if (!tieneFoto) sinFoto++;
+    if (q && !p.n.toLowerCase().includes(q)) return;
+    visibles++;
+    const tr = document.createElement("tr");
+    tr.className = tieneFoto ? "" : "sin-foto";
+
+    const tdFoto = document.createElement("td");
+    tdFoto.innerHTML = `
+      <div class="foto-cel" title="Click para subir/cambiar foto">
+        ${tieneFoto
+          ? `<img src="/assets/productos/${slug(p.n)}.jpg?ts=${Date.now()}" alt="">`
+          : `<span class="marca">sin foto</span>`}
+        <input type="file" accept="image/*" data-idx="${i}">
+      </div>
+      <div class="estado-foto" data-estado="${i}"></div>`;
+
+    const tdNombre = document.createElement("td");
+    const inNombre = document.createElement("input");
+    inNombre.className = "nombre-in";
+    inNombre.value = p.n;
+    inNombre.addEventListener("input", () => { p.n = inNombre.value; marcarSucio(); });
+    tdNombre.appendChild(inNombre);
+
+    const tdPrecio = document.createElement("td");
+    const inPrecio = document.createElement("input");
+    inPrecio.className = "precio-in";
+    inPrecio.type = "number";
+    inPrecio.min = "0";
+    inPrecio.step = "10";
+    inPrecio.value = p.p;
+    inPrecio.addEventListener("input", () => { p.p = Number(inPrecio.value) || 0; marcarSucio(); });
+    tdPrecio.appendChild(inPrecio);
+
+    const tdCat = document.createElement("td");
+    const selCat = document.createElement("select");
+    selCat.className = "cat-in";
+    CATEGORIAS.forEach(c => {
+      const op = document.createElement("option");
+      op.value = c; op.textContent = c;
+      if (c === p.c) op.selected = true;
+      selCat.appendChild(op);
+    });
+    selCat.addEventListener("change", () => { p.c = selCat.value; marcarSucio(); });
+    tdCat.appendChild(selCat);
+
+    const tdAcc = document.createElement("td");
+    tdAcc.innerHTML = `<div class="fila-acciones"><button class="icon-btn" data-borrar="${i}" title="Eliminar producto">🗑</button></div>`;
+
+    tr.append(tdFoto, tdNombre, tdPrecio, tdCat, tdAcc);
+    tbody.appendChild(tr);
+  });
+  $("#conteo").innerHTML = `<b>${filas.length}</b> productos · <b>${filas.length - sinFoto}</b> con foto · <b>${sinFoto}</b> sin foto`;
+}
+
+$("#filas").addEventListener("click", async e => {
+  const btnBorrar = e.target.closest("[data-borrar]");
+  if (btnBorrar) {
+    const i = Number(btnBorrar.dataset.borrar);
+    if (confirm(`¿Eliminar "${filas[i].n}" del catálogo?`)) {
+      filas.splice(i, 1);
+      marcarSucio();
+      dibujar($("#buscar").value);
+    }
+  }
+});
+
+$("#filas").addEventListener("change", async e => {
+  const input = e.target.closest('input[type=file]');
+  if (!input || !input.files[0]) return;
+  const i = Number(input.dataset.idx);
+  const p = filas[i];
+  const estado = document.querySelector(`[data-estado="${i}"]`);
+  estado.textContent = "Subiendo…";
+  estado.className = "estado-foto";
+  try {
+    const b64 = await new Promise((res, rej) => {
+      const r = new FileReader();
+      r.onload = () => res(r.result);
+      r.onerror = rej;
+      r.readAsDataURL(input.files[0]);
+    });
+    const r = await fetch("/api/foto", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ nombre: p.n, imagen_base64: b64 }),
+    });
+    const d = await r.json();
+    if (!r.ok || d.error) throw new Error(d.error || "error subiendo");
+    FOTOS.add(slug(p.n));
+    estado.textContent = "✓ Guardada";
+    dibujar($("#buscar").value);
+    toast(`Foto de "${p.n}" actualizada`);
+  } catch (err) {
+    estado.textContent = "Error al subir";
+    estado.className = "estado-foto error";
+    toast("No se pudo subir la foto: " + err.message, true);
+  }
+});
+
+$("#buscar").addEventListener("input", () => dibujar($("#buscar").value));
+
+$("#agregar").addEventListener("click", () => {
+  filas.unshift({ n: "", p: 0, c: CATEGORIAS[0] });
+  marcarSucio();
+  $("#buscar").value = "";
+  dibujar();
+  const primerInput = document.querySelector("#filas tr td:nth-child(2) input");
+  if (primerInput) primerInput.focus();
+});
+
+$("#guardar").addEventListener("click", async () => {
+  const invalidos = filas.filter(p => !p.n.trim());
+  if (invalidos.length) {
+    toast("Hay productos sin nombre — complétalos o elimínalos antes de guardar", true);
+    return;
+  }
+  $("#guardar").disabled = true;
+  $("#guardar").textContent = "Guardando…";
+  try {
+    const r = await fetch("/api/guardar", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ productos: filas }),
+    });
+    const d = await r.json();
+    if (!r.ok || d.error) throw new Error(d.error || "error guardando");
+    sucio = false;
+    $("#cambios").textContent = "";
+    toast(`Guardado: ${d.total} productos. Ya se ve reflejado en el catálogo.`);
+  } catch (err) {
+    toast("No se pudo guardar: " + err.message, true);
+  } finally {
+    $("#guardar").disabled = false;
+    $("#guardar").textContent = "Guardar cambios";
+  }
+});
+
+window.addEventListener("beforeunload", e => {
+  if (sucio) { e.preventDefault(); e.returnValue = ""; }
+});
+
+cargar();
+</script>
+</body>
+</html>

@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="es-CL">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aseo y limpieza — Catálogo</title>
+<!--
+  Versión alterna de exploración de diseño (v7 "dc"), importada desde claude.ai/design
+  (proyecto "Catálogo WhatsApp Limpieza", archivo Catalogo.dc.html) y convertida a
+  HTML/CSS/JS plano — sin el runtime propietario x-dc/support.js del editor.
+  Usa el catálogo real (assets/catalogo.js, 64 productos) y las fotos reales
+  (assets/productos/), NO los productos de ejemplo del mockup original.
+  No reemplaza index.html (v6 "Mercado", en producción). Solo para revisión.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700;6..12,800&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box}
+  body{margin:0;background:oklch(0.93 0.015 200);font-family:'Nunito Sans',sans-serif;}
+  a{color:oklch(0.55 0.11 200);text-decoration:none}
+  a:hover{color:oklch(0.48 0.12 200)}
+  input{font:inherit}
+  button{font:inherit}
+  .chips::-webkit-scrollbar{display:none}
+  .chips{scrollbar-width:none}
+  @keyframes sheetUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+</style>
+</head>
+<body>
+<div style="max-width:452px;margin:0 auto;min-height:100vh;background:oklch(0.98 0.006 200);position:relative;box-shadow:0 0 40px rgba(0,0,0,.06);">
+
+  <!-- HEADER -->
+  <div style="position:sticky;top:0;z-index:30;background:oklch(0.98 0.006 200);border-bottom:1px solid oklch(0.91 0.02 195);">
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px 10px;">
+      <div style="display:flex;align-items:center;gap:9px;">
+        <div style="width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,oklch(0.62 0.11 165),oklch(0.58 0.11 215));display:flex;align-items:center;justify-content:center;font-size:17px;">🫧</div>
+        <div>
+          <div style="font-family:'Quicksand',sans-serif;font-weight:700;font-size:16px;color:oklch(0.28 0.03 210);line-height:1;">Aseo y limpieza</div>
+          <div style="font-size:11px;color:oklch(0.55 0.02 210);margin-top:2px;">Higiene · Hogar · Negocio</div>
+        </div>
+      </div>
+      <a id="wa-header" href="#" target="_blank" style="display:flex;align-items:center;gap:5px;background:oklch(0.95 0.05 150);color:oklch(0.42 0.09 152);font-weight:700;font-size:12px;padding:7px 11px;border-radius:999px;">
+        <span style="width:7px;height:7px;border-radius:50%;background:oklch(0.6 0.15 150);display:inline-block;"></span>WhatsApp
+      </a>
+    </div>
+
+    <!-- SEARCH -->
+    <div style="padding:0 16px 10px;">
+      <div style="display:flex;align-items:center;gap:8px;background:oklch(0.95 0.012 200);border:1px solid oklch(0.9 0.02 195);border-radius:12px;padding:9px 12px;">
+        <span style="color:oklch(0.6 0.02 210);font-size:14px;">🔍</span>
+        <input id="search" placeholder="Buscar producto o código…" style="border:none;outline:none;background:transparent;font-family:'Nunito Sans',sans-serif;font-size:14px;color:oklch(0.3 0.02 210);width:100%;">
+      </div>
+    </div>
+
+    <!-- CHIPS -->
+    <div id="chips" class="chips" style="display:flex;gap:8px;overflow-x:auto;padding:0 16px 12px;"></div>
+  </div>
+
+  <!-- PRODUCTS -->
+  <div id="products" style="padding:14px 16px 130px;"></div>
+
+  <!-- BOTTOM BAR -->
+  <div style="position:fixed;left:50%;transform:translateX(-50%);bottom:0;width:100%;max-width:452px;z-index:40;padding:12px 16px calc(12px + env(safe-area-inset-bottom));background:linear-gradient(to top, oklch(0.98 0.006 200) 72%, transparent);">
+    <button id="bar" style="width:100%;display:flex;align-items:center;justify-content:space-between;border:none;cursor:pointer;padding:13px 16px;border-radius:16px;color:#fff;font-family:'Nunito Sans',sans-serif;">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <span style="background:rgba(255,255,255,.22);width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:17px;">🛒</span>
+        <div style="text-align:left;line-height:1.15;">
+          <div id="bar-count" style="font-size:11px;opacity:.9;font-weight:600;"></div>
+          <div id="bar-total" style="font-family:'Quicksand',sans-serif;font-weight:700;font-size:16px;"></div>
+        </div>
+      </div>
+      <span id="bar-cta" style="font-family:'Quicksand',sans-serif;font-weight:700;font-size:14px;"></span>
+    </button>
+  </div>
+
+  <!-- CART SHEET -->
+  <div id="overlay" style="position:fixed;inset:0;z-index:50;background:rgba(20,40,45,.4);display:none;justify-content:center;">
+    <div id="sheet" style="position:absolute;bottom:0;width:100%;max-width:452px;max-height:86vh;overflow:auto;background:oklch(0.98 0.006 200);border-radius:22px 22px 0 0;padding:8px 18px calc(20px + env(safe-area-inset-bottom));">
+      <div style="width:40px;height:4px;border-radius:2px;background:oklch(0.85 0.02 200);margin:8px auto 14px;"></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+        <h3 style="margin:0;font-family:'Quicksand',sans-serif;font-size:19px;font-weight:700;color:oklch(0.26 0.03 210);">Mi pedido</h3>
+        <button id="close-cart" style="border:none;background:oklch(0.94 0.012 200);width:30px;height:30px;border-radius:50%;font-size:16px;color:oklch(0.45 0.02 210);cursor:pointer;">✕</button>
+      </div>
+      <div id="cart-body"></div>
+    </div>
+  </div>
+</div>
+
+<script src="assets/catalogo.js"></script>
+<script>
+"use strict";
+
+const WHATSAPP = "56992513608";
+
+const CAT_META = {
+  "Limpieza":         { letter: "L", hue: 165, prefix: "LIM" },
+  "Desinfección":     { letter: "D", hue: 215, prefix: "DES" },
+  "Papel":            { letter: "P", hue: 255, prefix: "PAP" },
+  "Accesorios":       { letter: "A", hue: 195, prefix: "ACC" },
+  "Cocina":           { letter: "K", hue: 235, prefix: "COC" },
+  "Cuidado personal": { letter: "H", hue: 25,  prefix: "CUI" },
+};
+const DEFAULT_META = { letter: "?", hue: 200, prefix: "OTR" };
+
+const norm  = s => s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
+const slug  = s => norm(s).replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+const clp   = n => "$" + n.toLocaleString("es-CL");
+const foto  = id => `assets/productos/${id}.jpg`;
+const accent     = hue => `oklch(0.55 0.11 ${hue})`;
+const accentSoft = hue => `oklch(0.95 0.03 ${hue})`;
+
+// orden de categorías: primera aparición en el catálogo, igual que index.html
+const CAT_ORDER = [...new Set(CATALOGO.map(p => p.c))];
+
+// códigos estables por producto (no dependen del filtro/búsqueda actual)
+const PRODUCTS = (() => {
+  const counters = {};
+  return CATALOGO.map(p => {
+    const meta = CAT_META[p.c] || DEFAULT_META;
+    counters[p.c] = (counters[p.c] || 0) + 1;
+    return {
+      code: meta.prefix + String(counters[p.c]).padStart(2, "0"),
+      name: p.n,
+      price: p.p,
+      cat: p.c,
+      id: slug(p.n),
+    };
+  });
+})();
+
+const state = { cat: "all", query: "", cart: {}, open: false };
+
+function setState(patch) {
+  Object.assign(state, typeof patch === "function" ? patch(state) : patch);
+  render();
+}
+
+function addToCart(code)  { state.cart[code] = (state.cart[code] || 0) + 1; render(); }
+function decQty(code) {
+  const q = (state.cart[code] || 0) - 1;
+  if (q <= 0) delete state.cart[code]; else state.cart[code] = q;
+  render();
+}
+function clearCart() { state.cart = {}; state.open = false; render(); }
+
+function buildMessage() {
+  const lines = ["¡Hola! 👋 Quiero hacer este pedido:", ""];
+  let total = 0;
+  Object.entries(state.cart).forEach(([code, qty]) => {
+    const p = PRODUCTS.find(x => x.code === code);
+    if (!p) return;
+    total += p.price * qty;
+    lines.push(`• [${code}] ${p.name} x${qty} — ${clp(p.price * qty)}`);
+  });
+  lines.push("", `Total estimado: ${clp(total)}`, "", "¿Me confirmas stock y forma de entrega? 🙌");
+  return lines.join("\n");
+}
+
+function waLink() { return `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(buildMessage())}`; }
+
+function photoBlock(id, code, accentColor) {
+  return `
+    <div style="position:relative;height:96px;border-radius:10px;background:oklch(0.965 0.008 200);overflow:hidden;">
+      <div style="position:absolute;inset:0;background-image:repeating-linear-gradient(45deg, oklch(0.94 0.02 195) 0 8px, oklch(0.905 0.025 195) 8px 16px);display:flex;align-items:center;justify-content:center;">
+        <span style="font-family:ui-monospace,Menlo,monospace;font-size:10px;color:oklch(0.55 0.02 210);background:rgba(255,255,255,.72);padding:2px 7px;border-radius:6px;">foto</span>
+      </div>
+      <img src="${foto(id)}" loading="lazy" alt="" onerror="this.remove()" onload="this.previousElementSibling.style.display='none'"
+           style="position:relative;z-index:1;display:block;width:100%;height:100%;object-fit:contain;">
+      <span style="position:absolute;top:7px;left:7px;z-index:2;font-family:ui-monospace,Menlo,monospace;font-size:10px;font-weight:700;color:${accentColor};background:rgba(255,255,255,.85);padding:2px 6px;border-radius:6px;">${code}</span>
+    </div>`;
+}
+
+function render() {
+  const q = norm(state.query.trim());
+
+  // CHIPS
+  const chipsHtml = ["all", ...CAT_ORDER].map(key => {
+    const active = state.cat === key;
+    const label = key === "all" ? "Todos" : key;
+    return `<button data-chip="${key}" style="white-space:nowrap;flex:0 0 auto;border:1.5px solid ${active ? "oklch(0.6 0.11 175)" : "oklch(0.9 0.02 195)"};background:${active ? "oklch(0.6 0.11 175)" : "oklch(0.98 0.006 200)"};color:${active ? "#fff" : "oklch(0.4 0.02 210)"};font-family:'Quicksand',sans-serif;font-weight:700;font-size:13px;padding:8px 14px;border-radius:999px;cursor:pointer;">${label}</button>`;
+  }).join("");
+  document.getElementById("chips").innerHTML = chipsHtml;
+
+  // PRODUCTS
+  const matches = p => !q || norm(p.name).includes(q) || norm(p.code).includes(q);
+  const cats = CAT_ORDER
+    .filter(c => state.cat === "all" || state.cat === c)
+    .map(c => {
+      const meta = CAT_META[c] || DEFAULT_META;
+      const prods = PRODUCTS.filter(p => p.cat === c && matches(p));
+      return { name: c, meta, products: prods };
+    })
+    .filter(c => c.products.length > 0);
+
+  const productsEl = document.getElementById("products");
+  if (cats.length === 0) {
+    productsEl.innerHTML = `
+      <div style="text-align:center;padding:60px 20px;color:oklch(0.55 0.02 210);">
+        <div style="font-size:34px;margin-bottom:8px;">🧼</div>
+        <div style="font-family:'Quicksand',sans-serif;font-weight:700;font-size:16px;color:oklch(0.35 0.02 210);">Sin resultados</div>
+        <div style="font-size:13px;margin-top:4px;">Prueba con otra palabra o categoría.</div>
+      </div>`;
+  } else {
+    productsEl.innerHTML = cats.map(cat => {
+      const ac = accent(cat.meta.hue), sc = accentSoft(cat.meta.hue);
+      const cards = cat.products.map(p => {
+        const qty = state.cart[p.code] || 0;
+        const border = qty > 0 ? ac : "oklch(0.92 0.015 195)";
+        const action = qty > 0
+          ? `<div style="display:flex;align-items:center;justify-content:space-between;margin-top:9px;background:${sc};border-radius:10px;padding:4px;">
+               <button data-dec="${p.code}" style="width:30px;height:30px;border:none;border-radius:8px;background:#fff;color:${ac};font-size:18px;font-weight:700;cursor:pointer;line-height:1;display:flex;align-items:center;justify-content:center;">−</button>
+               <span style="font-family:'Quicksand',sans-serif;font-weight:700;font-size:15px;color:oklch(0.3 0.03 210);">${qty}</span>
+               <button data-inc="${p.code}" style="width:30px;height:30px;border:none;border-radius:8px;background:${ac};color:#fff;font-size:18px;font-weight:700;cursor:pointer;line-height:1;display:flex;align-items:center;justify-content:center;">+</button>
+             </div>`
+          : `<button data-add="${p.code}" style="margin-top:9px;width:100%;border:1.5px solid ${sc};background:${sc};color:${ac};font-family:'Quicksand',sans-serif;font-weight:700;font-size:13px;padding:7px;border-radius:10px;cursor:pointer;">+ Agregar</button>`;
+        return `
+          <div style="background:#fff;border:1px solid ${border};border-radius:14px;padding:9px;transition:border-color .15s;">
+            ${photoBlock(p.id, p.code, ac)}
+            <div style="font-size:12.5px;font-weight:600;color:oklch(0.3 0.02 210);line-height:1.28;margin-top:9px;min-height:32px;text-wrap:pretty;">${p.name}</div>
+            <div style="font-family:'Quicksand',sans-serif;font-size:16px;font-weight:700;color:oklch(0.32 0.04 200);margin-top:4px;">${clp(p.price)}</div>
+            ${action}
+          </div>`;
+      }).join("");
+      return `
+        <section style="margin-bottom:22px;">
+          <div style="display:flex;align-items:center;gap:9px;margin-bottom:11px;">
+            <div style="width:26px;height:26px;border-radius:8px;background:${sc};color:${ac};display:flex;align-items:center;justify-content:center;font-family:'Quicksand',sans-serif;font-weight:700;font-size:13px;">${cat.meta.letter}</div>
+            <h2 style="margin:0;font-family:'Quicksand',sans-serif;font-size:16px;font-weight:700;color:oklch(0.28 0.03 210);">${cat.name}</h2>
+            <span style="font-size:11px;color:oklch(0.6 0.02 210);font-weight:600;">${cat.products.length} productos</span>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:11px;">${cards}</div>
+        </section>`;
+    }).join("");
+  }
+
+  // BOTTOM BAR
+  const count = Object.values(state.cart).reduce((a, b) => a + b, 0);
+  const total = Object.entries(state.cart).reduce((sum, [code, qty]) => {
+    const p = PRODUCTS.find(x => x.code === code);
+    return sum + (p ? p.price * qty : 0);
+  }, 0);
+  const has = count > 0;
+  document.getElementById("bar-count").textContent = has ? `${count} ${count === 1 ? "producto" : "productos"}` : "Tu pedido";
+  document.getElementById("bar-total").textContent = clp(total);
+  document.getElementById("bar-cta").textContent = (has ? "Ver pedido" : "Elige productos") + " →";
+  document.getElementById("bar").style.background = has
+    ? "linear-gradient(135deg,oklch(0.6 0.13 152),oklch(0.56 0.12 168))"
+    : "oklch(0.55 0.03 210)";
+  document.getElementById("bar").style.boxShadow = "0 8px 22px rgba(0,60,40,.22)";
+
+  // CART SHEET
+  document.getElementById("overlay").style.display = state.open ? "flex" : "none";
+  const items = Object.entries(state.cart).map(([code, qty]) => {
+    const p = PRODUCTS.find(x => x.code === code);
+    return { code, name: p ? p.name : code, price: p ? p.price : 0, qty };
+  });
+  const cartBody = document.getElementById("cart-body");
+  if (items.length === 0) {
+    cartBody.innerHTML = `
+      <div style="text-align:center;padding:30px 10px 40px;color:oklch(0.55 0.02 210);">
+        <div style="font-size:30px;margin-bottom:6px;">🧺</div>
+        <div style="font-size:14px;">Tu pedido está vacío.<br>Toca “Agregar” en los productos.</div>
+      </div>`;
+  } else {
+    const rows = items.map(it => `
+      <div style="display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid oklch(0.93 0.012 200);">
+        <span style="font-family:ui-monospace,Menlo,monospace;font-size:10.5px;font-weight:700;color:oklch(0.5 0.03 200);background:oklch(0.94 0.02 200);padding:3px 6px;border-radius:6px;">${it.code}</span>
+        <div style="flex:1;min-width:0;">
+          <div style="font-size:13px;font-weight:600;color:oklch(0.3 0.02 210);line-height:1.25;">${it.name}</div>
+          <div style="font-size:12px;color:oklch(0.55 0.02 210);margin-top:1px;">${it.qty} × ${clp(it.price)} = ${clp(it.price * it.qty)}</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <button data-dec="${it.code}" style="width:28px;height:28px;border:1px solid oklch(0.88 0.02 200);border-radius:8px;background:#fff;font-size:16px;font-weight:700;color:oklch(0.45 0.05 200);cursor:pointer;line-height:1;">−</button>
+          <span style="font-family:'Quicksand',sans-serif;font-weight:700;min-width:16px;text-align:center;">${it.qty}</span>
+          <button data-inc="${it.code}" style="width:28px;height:28px;border:none;border-radius:8px;background:oklch(0.62 0.11 165);color:#fff;font-size:16px;font-weight:700;cursor:pointer;line-height:1;">+</button>
+        </div>
+      </div>`).join("");
+    cartBody.innerHTML = `
+      ${rows}
+      <div>
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 2px 6px;">
+          <span style="font-size:14px;color:oklch(0.45 0.02 210);font-weight:600;">Total estimado</span>
+          <span style="font-family:'Quicksand',sans-serif;font-size:22px;font-weight:700;color:oklch(0.28 0.04 200);">${clp(total)}</span>
+        </div>
+        <p style="font-size:11.5px;color:oklch(0.58 0.02 210);margin:0 0 12px;line-height:1.4;">El total es referencial. Confirmamos stock y precio final al responder tu mensaje.</p>
+        <a href="${waLink()}" target="_blank" id="send-order" style="display:flex;align-items:center;justify-content:center;gap:9px;background:oklch(0.6 0.14 150);color:#fff;font-family:'Quicksand',sans-serif;font-weight:700;font-size:16px;padding:15px;border-radius:14px;box-shadow:0 6px 18px oklch(0.6 0.14 150 / .35);">
+          <span style="width:9px;height:9px;border-radius:50%;background:#fff;"></span>Enviar pedido por WhatsApp
+        </a>
+        <button id="clear-cart" style="width:100%;margin-top:9px;background:transparent;border:none;color:oklch(0.55 0.06 25);font-family:'Nunito Sans',sans-serif;font-weight:700;font-size:13px;padding:8px;cursor:pointer;">Vaciar pedido</button>
+      </div>`;
+  }
+}
+
+// --- eventos (delegación, un solo listener por contenedor) ---
+document.getElementById("wa-header").addEventListener("click", e => {
+  e.preventDefault();
+  window.open(`https://wa.me/${WHATSAPP}`, "_blank");
+});
+document.getElementById("search").addEventListener("input", e => setState({ query: e.target.value }));
+document.getElementById("chips").addEventListener("click", e => {
+  const btn = e.target.closest("[data-chip]");
+  if (btn) setState({ cat: btn.dataset.chip });
+});
+document.getElementById("products").addEventListener("click", e => {
+  const add = e.target.closest("[data-add]");
+  const inc = e.target.closest("[data-inc]");
+  const dec = e.target.closest("[data-dec]");
+  if (add) addToCart(add.dataset.add);
+  else if (inc) addToCart(inc.dataset.inc);
+  else if (dec) decQty(dec.dataset.dec);
+});
+document.getElementById("bar").addEventListener("click", () => setState(s => ({ open: !s.open })));
+document.getElementById("close-cart").addEventListener("click", () => setState({ open: false }));
+document.getElementById("overlay").addEventListener("click", () => setState({ open: false }));
+document.getElementById("sheet").addEventListener("click", e => e.stopPropagation());
+document.getElementById("cart-body").addEventListener("click", e => {
+  const inc = e.target.closest("[data-inc]");
+  const dec = e.target.closest("[data-dec]");
+  const clear = e.target.closest("#clear-cart");
+  const send = e.target.closest("#send-order");
+  if (inc) addToCart(inc.dataset.inc);
+  else if (dec) decQty(dec.dataset.dec);
+  else if (clear) clearCart();
+  else if (send) setTimeout(() => setState({ open: false }), 300);
+});
+
+render();
+</script>
+</body>
+</html>

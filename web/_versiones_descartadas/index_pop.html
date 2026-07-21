@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="es-CL">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Locas del Aseo — Productos de aseo con despacho gratis</title>
+<meta name="description" content="Detergentes, papel, limpieza y cuidado personal a precios de barrio. Despacho GRATIS en Peñalolén, Macul, Ñuñoa y La Reina.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#141B2E; --ink-soft:#5A6480;
+  --cream:#FFF6E9; --paper:#FFFDF8;
+  --mint:#12D39B; --mint-dk:#0BA87B;
+  --coral:#FF4B5C;
+  --lemon:#FFD43B;
+  --grape:#7A5CFF;
+  --line:#141B2E;
+  --r:18px;
+  --shadow:4px 4px 0 var(--ink);
+  --shadow-lg:7px 7px 0 var(--ink);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Instrument Sans',system-ui,sans-serif;
+  background:var(--cream); color:var(--ink);
+  -webkit-font-smoothing:antialiased;
+  padding-bottom:96px;
+  overflow-x:hidden;
+}
+/* burbujas de fondo */
+body::before{
+  content:''; position:fixed; inset:0; z-index:0; pointer-events:none; opacity:.5;
+  background:
+    radial-gradient(circle at 12% 18%, rgba(18,211,155,.16) 0 90px, transparent 91px),
+    radial-gradient(circle at 88% 12%, rgba(122,92,255,.10) 0 130px, transparent 131px),
+    radial-gradient(circle at 78% 62%, rgba(255,212,59,.16) 0 70px, transparent 71px),
+    radial-gradient(circle at 6% 72%, rgba(255,75,92,.09) 0 110px, transparent 111px);
+}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px;position:relative;z-index:1}
+
+/* ── barra superior ── */
+header{
+  position:sticky; top:0; z-index:60;
+  background:var(--ink); color:var(--cream);
+  border-bottom:3px solid var(--ink);
+}
+.bar{display:flex;align-items:center;gap:16px;height:64px}
+.logo{
+  font-family:'Bricolage Grotesque',sans-serif; font-weight:800;
+  font-size:clamp(17px,2.6vw,22px); letter-spacing:-.02em; line-height:1;
+  display:flex; align-items:center; gap:9px; white-space:nowrap;
+}
+.logo .bub{
+  width:30px;height:30px;border-radius:50%;flex:0 0 auto;
+  background:radial-gradient(circle at 32% 30%, #fff 0 3px, var(--mint) 4px);
+  border:2.5px solid var(--cream);
+}
+.logo em{color:var(--mint);font-style:normal}
+.bar .grow{flex:1}
+.btn-cart{
+  display:flex;align-items:center;gap:9px;
+  background:var(--lemon); color:var(--ink);
+  border:2.5px solid var(--cream); border-radius:999px;
+  padding:9px 17px; font-weight:700; font-size:15px; cursor:pointer;
+  font-family:'Instrument Sans',sans-serif; transition:transform .12s;
+}
+.btn-cart:hover{transform:translateY(-2px)}
+.btn-cart .n{
+  background:var(--coral);color:#fff;min-width:22px;height:22px;border-radius:999px;
+  display:grid;place-items:center;font-size:12.5px;font-weight:700;padding:0 5px;
+}
+
+/* ── marquesina ── */
+.marquee{
+  background:var(--mint); color:var(--ink);
+  border-bottom:3px solid var(--ink);
+  overflow:hidden; white-space:nowrap; padding:8px 0;
+  font-weight:700; font-size:13.5px; letter-spacing:.04em; text-transform:uppercase;
+}
+.marquee span{display:inline-block;animation:slide 26s linear infinite;padding-right:36px}
+@keyframes slide{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ── hero ── */
+.hero{padding:52px 0 40px;position:relative}
+.hero h1{
+  font-family:'Bricolage Grotesque',sans-serif; font-weight:800;
+  font-size:clamp(38px,7.4vw,80px); line-height:.94; letter-spacing:-.035em;
+  max-width:15ch;
+}
+.hero h1 mark{background:var(--lemon);padding:0 .12em;border-radius:6px;color:var(--ink)}
+.hero p{
+  margin-top:20px; font-size:clamp(16px,2vw,19px); max-width:46ch;
+  color:var(--ink-soft); line-height:1.55;
+}
+.zonas{display:flex;flex-wrap:wrap;gap:8px;margin-top:24px}
+.zona{
+  background:var(--paper); border:2.5px solid var(--ink); border-radius:999px;
+  padding:7px 15px; font-weight:600; font-size:14px; box-shadow:2px 2px 0 var(--ink);
+}
+.sello{
+  position:absolute; right:8px; top:44px; width:clamp(112px,15vw,152px); aspect-ratio:1;
+  background:var(--coral); color:#fff; border:3px solid var(--ink); border-radius:50%;
+  display:grid; place-items:center; text-align:center; transform:rotate(-9deg);
+  box-shadow:var(--shadow-lg); padding:12px;
+  font-family:'Bricolage Grotesque',sans-serif; font-weight:800; line-height:1.05;
+  font-size:clamp(15px,2vw,20px); animation:wob 5s ease-in-out infinite;
+}
+.sello small{display:block;font-size:.62em;font-weight:600;opacity:.92;margin-top:5px;letter-spacing:.02em}
+@keyframes wob{0%,100%{transform:rotate(-9deg)}50%{transform:rotate(-3deg) scale(1.03)}}
+@media(max-width:720px){.sello{position:static;margin:26px 0 0;transform:rotate(-4deg)}}
+
+/* ── filtros ── */
+.tools{
+  position:sticky; top:64px; z-index:50;
+  background:var(--cream); padding:14px 0 12px;
+  border-bottom:2.5px solid var(--ink);
+}
+.search{
+  width:100%; padding:13px 18px; font-size:16px; font-family:inherit;
+  border:2.5px solid var(--ink); border-radius:999px; background:var(--paper);
+  box-shadow:3px 3px 0 var(--ink); outline:none; color:var(--ink);
+}
+.search:focus{box-shadow:3px 3px 0 var(--mint)}
+.search::placeholder{color:#9AA2B8}
+.chips{display:flex;gap:8px;margin-top:12px;overflow-x:auto;padding-bottom:3px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{
+  flex:0 0 auto; padding:8px 15px; border:2.5px solid var(--ink); border-radius:999px;
+  background:var(--paper); font-weight:600; font-size:14px; cursor:pointer;
+  font-family:inherit; color:var(--ink); transition:.12s; white-space:nowrap;
+}
+.chip:hover{transform:translateY(-1px)}
+.chip.on{background:var(--ink);color:var(--cream)}
+
+/* ── grilla ── */
+.grid{
+  display:grid; gap:14px; padding:28px 0 40px;
+  grid-template-columns:repeat(auto-fill,minmax(155px,1fr));
+}
+@media(min-width:640px){.grid{gap:16px;grid-template-columns:repeat(auto-fill,minmax(196px,1fr))}}
+.card{
+  background:var(--paper); border:2.5px solid var(--ink); border-radius:var(--r);
+  box-shadow:var(--shadow); overflow:hidden; display:flex; flex-direction:column;
+  transition:transform .14s, box-shadow .14s;
+}
+.card:hover{transform:translate(-2px,-2px);box-shadow:var(--shadow-lg)}
+.ph{
+  aspect-ratio:1; position:relative; overflow:hidden;
+  border-bottom:2.5px solid var(--ink); background:#fff;
+}
+.ph img{width:100%;height:100%;object-fit:cover;display:block}
+/* tarjeta de respaldo mientras no hay foto */
+.ph .fb{
+  position:absolute; inset:0; display:grid; place-items:center;
+  font-size:46px; line-height:1;
+}
+.ph .fb::after{
+  content:''; position:absolute; inset:0; pointer-events:none;
+  background:radial-gradient(circle at 24% 22%, rgba(255,255,255,.5) 0 26px, transparent 27px),
+             radial-gradient(circle at 74% 76%, rgba(255,255,255,.35) 0 34px, transparent 35px);
+}
+.ph .fb span{position:relative;z-index:1}
+.cat-tag{
+  position:absolute; left:9px; top:9px; z-index:2;
+  background:var(--ink); color:var(--cream); border-radius:999px;
+  padding:4px 10px; font-size:10.5px; font-weight:700; letter-spacing:.05em; text-transform:uppercase;
+}
+.info{padding:13px 13px 14px; display:flex; flex-direction:column; gap:10px; flex:1}
+.nm{font-weight:600; font-size:14.5px; line-height:1.28; flex:1}
+.row{display:flex; align-items:center; justify-content:space-between; gap:10px}
+.pr{font-family:'Bricolage Grotesque',sans-serif; font-weight:800; font-size:23px; letter-spacing:-.02em}
+.add{
+  border:2.5px solid var(--ink); background:var(--mint); color:var(--ink);
+  width:40px;height:40px;border-radius:12px; font-size:22px; font-weight:700; cursor:pointer;
+  display:grid;place-items:center; line-height:1; font-family:inherit; transition:.12s; flex:0 0 auto;
+}
+.add:hover{background:var(--lemon)}
+.add:active{transform:scale(.9)}
+.stp{display:flex;align-items:center;border:2.5px solid var(--ink);border-radius:12px;overflow:hidden;flex:0 0 auto}
+.stp button{
+  width:34px;height:36px;border:0;background:var(--paper);color:var(--ink);
+  font-size:19px;font-weight:700;cursor:pointer;font-family:inherit;line-height:1;
+}
+.stp button:hover{background:var(--lemon)}
+.stp .q{width:34px;text-align:center;font-weight:700;font-size:15px;background:var(--mint)}
+.empty{grid-column:1/-1;text-align:center;padding:60px 20px;color:var(--ink-soft);font-size:17px}
+
+/* ── carrito ── */
+.scrim{
+  position:fixed; inset:0; background:rgba(20,27,46,.55); z-index:80;
+  opacity:0; pointer-events:none; transition:opacity .22s;
+}
+.scrim.on{opacity:1;pointer-events:auto}
+.cart{
+  position:fixed; top:0; right:0; bottom:0; width:min(420px,100%); z-index:90;
+  background:var(--cream); border-left:3px solid var(--ink);
+  display:flex; flex-direction:column; transform:translateX(101%); transition:transform .28s cubic-bezier(.4,0,.2,1);
+}
+.cart.on{transform:none}
+.cart-hd{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:18px 20px; background:var(--ink); color:var(--cream); border-bottom:3px solid var(--ink);
+}
+.cart-hd h2{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:21px;letter-spacing:-.02em}
+.x{background:none;border:0;color:var(--cream);font-size:28px;cursor:pointer;line-height:1;padding:0 4px}
+.cart-bd{flex:1;overflow-y:auto;padding:16px 20px}
+.ci{display:flex;gap:12px;align-items:center;padding:13px 0;border-bottom:2px dashed #D8D0C2}
+.ci .t{flex:1;min-width:0}
+.ci .t b{display:block;font-weight:600;font-size:14.5px;line-height:1.25}
+.ci .t small{color:var(--ink-soft);font-size:13px}
+.ci .pp{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:16px;white-space:nowrap}
+.free-bar{
+  background:var(--paper); border:2.5px solid var(--ink); border-radius:14px;
+  padding:12px 14px; margin-bottom:14px; font-size:13.5px; font-weight:600;
+}
+.free-bar .track{height:9px;background:#E7E0D2;border-radius:999px;margin-top:9px;overflow:hidden;border:1.5px solid var(--ink)}
+.free-bar .fill{height:100%;background:var(--mint);width:0;transition:width .35s}
+.free-bar.ok{background:var(--mint)}
+.cart-ft{padding:18px 20px; border-top:3px solid var(--ink); background:var(--paper)}
+.lbl{font-size:12.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-soft);display:block;margin-bottom:6px}
+.sel{
+  width:100%;padding:11px 14px;font-size:15px;font-family:inherit;color:var(--ink);
+  border:2.5px solid var(--ink);border-radius:12px;background:var(--cream);margin-bottom:12px;
+}
+.tot{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px;font-weight:600;font-size:14.5px}
+.tot.big{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:27px;letter-spacing:-.02em;margin:8px 0 14px}
+.go{
+  width:100%;padding:15px;border:2.5px solid var(--ink);border-radius:14px;
+  font-family:inherit;font-weight:700;font-size:16px;cursor:pointer;
+  box-shadow:var(--shadow); transition:.12s; display:flex;align-items:center;justify-content:center;gap:9px;
+}
+.go:hover:not(:disabled){transform:translate(-2px,-2px);box-shadow:var(--shadow-lg)}
+.go:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
+.go.wa{background:var(--mint);color:var(--ink)}
+.go.pay{background:var(--paper);color:var(--ink);margin-top:9px;box-shadow:none;border-style:dashed;font-weight:600;font-size:14.5px}
+.go.pay small{display:block;font-weight:600;font-size:11.5px;color:var(--ink-soft);letter-spacing:.03em}
+
+/* ── info ── */
+.info-sec{padding:16px 0 56px}
+.cols{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
+.box{
+  background:var(--paper);border:2.5px solid var(--ink);border-radius:var(--r);
+  padding:22px;box-shadow:var(--shadow);
+}
+.box .ic{font-size:29px;line-height:1;margin-bottom:11px;display:block}
+.box h3{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:19px;margin-bottom:7px;letter-spacing:-.02em}
+.box p{font-size:14.5px;color:var(--ink-soft);line-height:1.55}
+footer{background:var(--ink);color:var(--cream);padding:36px 0;text-align:center;border-top:3px solid var(--ink)}
+footer .logo{justify-content:center;margin-bottom:11px}
+footer p{font-size:14px;opacity:.72;line-height:1.7}
+footer a{color:var(--mint);font-weight:600}
+
+/* barra flotante móvil */
+.fab{
+  position:fixed;left:0;right:0;bottom:0;z-index:70;
+  background:var(--ink);border-top:3px solid var(--ink);padding:12px 20px;
+  display:none; align-items:center; gap:12px;
+}
+.fab.on{display:flex}
+.fab .s{color:var(--cream);font-weight:600;font-size:14px;flex:1}
+.fab .s b{display:block;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:20px}
+.fab button{
+  background:var(--mint);border:2.5px solid var(--cream);border-radius:12px;
+  padding:12px 20px;font-family:inherit;font-weight:700;font-size:15px;cursor:pointer;color:var(--ink);
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap bar">
+    <div class="logo"><span class="bub"></span>LOCAS <em>DEL</em> ASEO</div>
+    <div class="grow"></div>
+    <button class="btn-cart" onclick="abrir()">🧺 Carro <span class="n" id="nCarro">0</span></button>
+  </div>
+</header>
+
+<div class="marquee"><span id="mq"></span></div>
+
+<section class="wrap hero">
+  <h1>Tu aseo, <mark>al precio del barrio</mark>, en tu puerta.</h1>
+  <p>Detergentes, papel, limpieza y cuidado personal. Pides por WhatsApp y te llega el mismo día. Sin ir al súper, sin cargar bolsas, sin recargo.</p>
+  <div class="zonas" id="zonas"></div>
+  <div class="sello">DESPACHO<br>GRATIS<small>en tu comuna</small></div>
+</section>
+
+<div class="tools">
+  <div class="wrap">
+    <input class="search" id="q" type="search" placeholder="Busca detergente, confort, cloro…" autocomplete="off">
+    <div class="chips" id="chips"></div>
+  </div>
+</div>
+
+<main class="wrap">
+  <div class="grid" id="grid"></div>
+</main>
+
+<section class="wrap info-sec">
+  <div class="cols">
+    <div class="box"><span class="ic">🛵</span><h3>Despacho gratis</h3><p>Sobre $15.000 en Peñalolén, Macul, Ñuñoa, La Reina y La Florida. Bajo ese monto, $2.000.</p></div>
+    <div class="box"><span class="ic">💸</span><h3>Precio de barrio</h3><p>Compramos al por mayor y te lo dejamos más barato que en el súper. Sin membresías ni letra chica.</p></div>
+    <div class="box"><span class="ic">⚡</span><h3>Mismo día</h3><p>Pides antes de las 18:00 y te llega hoy. Si no, mañana temprano.</p></div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="logo"><span class="bub"></span>LOCAS <em>DEL</em> ASEO</div>
+    <p>Peñalolén, Santiago · <a href="#" id="waFoot">WhatsApp +56 9 5661 5153</a><br>Precios en pesos chilenos. Sujeto a disponibilidad de stock.</p>
+  </div>
+</footer>
+
+<div class="fab" id="fab">
+  <div class="s"><span>Tu carro</span><b id="fabTot">$0</b></div>
+  <button onclick="abrir()">Ver carro →</button>
+</div>
+
+<div class="scrim" id="scrim" onclick="cerrar()"></div>
+<aside class="cart" id="cart">
+  <div class="cart-hd">
+    <h2>Tu carro 🧺</h2>
+    <button class="x" onclick="cerrar()">×</button>
+  </div>
+  <div class="cart-bd" id="cartBd"></div>
+  <div class="cart-ft">
+    <label class="lbl" for="comuna">¿A qué comuna despachamos?</label>
+    <select class="sel" id="comuna" onchange="pinta()"></select>
+    <div class="tot"><span>Productos</span><span id="sub">$0</span></div>
+    <div class="tot"><span>Despacho</span><span id="env">—</span></div>
+    <div class="tot big"><span>Total</span><span id="tot">$0</span></div>
+    <button class="go wa" id="btnWa" onclick="pedirWA()">💬 Enviar pedido por WhatsApp</button>
+    <button class="go pay" disabled>💳 Pagar online<small>Disponible pronto</small></button>
+  </div>
+</aside>
+
+<script src="assets/catalogo.js"></script>
+<script>
+/* ═══ AJUSTES DEL NEGOCIO — cambia solo esto ═══ */
+const WHATSAPP   = "56956615153";   // sin + ni espacios
+const ENVIO_MIN  = 15000;           // compra mínima para despacho gratis
+const ENVIO_COSTO= 2000;            // cobro bajo el mínimo, en comuna con reparto
+const COMUNAS    = ["Peñalolén","Macul","Ñuñoa","La Reina","La Florida"];
+/* ══════════════════════════════════════════════ */
+
+// color de respaldo + ícono, mientras el producto no tenga foto propia
+const TONOS = {
+  "Limpieza":        ["#12D39B","🧴"],
+  "Desinfección":    ["#7A5CFF","🦠"],
+  "Papel":           ["#FFD43B","🧻"],
+  "Cuidado personal":["#FF4B5C","🧼"],
+  "Cocina":          ["#FF9F45","🍽️"],
+  "Accesorios":      ["#3EC8E8","🧽"]
+};
+const CATS = [...new Set(CATALOGO.map(p => p.c))];
+const clp  = n => "$" + n.toLocaleString("es-CL");
+const slug = s => s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"")
+                   .replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
+
+let carro  = JSON.parse(localStorage.getItem("lda_carro") || "{}");
+let filtro = "Todo", busca = "";
+
+/* ── render ── */
+document.getElementById("mq").innerHTML =
+  ("★ DESPACHO GRATIS EN PEÑALOLÉN · MACUL · ÑUÑOA · LA REINA · LA FLORIDA &nbsp;&nbsp; ★ PEDIDO MÍNIMO $15.000 &nbsp;&nbsp; ★ LLEGA EL MISMO DÍA &nbsp;&nbsp; ").repeat(2);
+
+document.getElementById("zonas").innerHTML =
+  COMUNAS.map(c => `<span class="zona">📍 ${c}</span>`).join("");
+
+document.getElementById("comuna").innerHTML =
+  `<option value="">Elige tu comuna…</option>` +
+  COMUNAS.map(c => `<option value="${c}">${c} — despacho gratis</option>`).join("") +
+  `<option value="otra">Otra comuna — coordinamos</option>`;
+
+document.getElementById("chips").innerHTML =
+  ["Todo", ...CATS].map(c => `<button class="chip${c==="Todo"?" on":""}" data-c="${c}">${c}</button>`).join("");
+
+document.getElementById("chips").onclick = e => {
+  const b = e.target.closest(".chip"); if (!b) return;
+  filtro = b.dataset.c;
+  document.querySelectorAll(".chip").forEach(x => x.classList.toggle("on", x === b));
+  grilla();
+};
+document.getElementById("q").oninput = e => { busca = e.target.value.trim().toLowerCase(); grilla(); };
+document.getElementById("waFoot").href = `https://wa.me/${WHATSAPP}`;
+
+function grilla(){
+  const vis = CATALOGO.filter(p =>
+    (filtro === "Todo" || p.c === filtro) && p.n.toLowerCase().includes(busca));
+
+  document.getElementById("grid").innerHTML = vis.length === 0
+    ? `<p class="empty">No encontramos «${busca}». Escríbenos por WhatsApp y te lo conseguimos 😉</p>`
+    : vis.map(p => {
+        const id = slug(p.n), q = carro[id]?.q || 0;
+        const [bg, ico] = TONOS[p.c] || ["#12D39B","🧴"];
+        return `
+        <article class="card">
+          <div class="ph">
+            <span class="cat-tag">${p.c}</span>
+            <div class="fb" style="background:${bg}"><span>${ico}</span></div>
+            <img src="assets/productos/${id}.jpg" alt="${p.n}" loading="lazy"
+                 onerror="this.remove()" onload="this.previousElementSibling.remove()">
+          </div>
+          <div class="info">
+            <div class="nm">${p.n}</div>
+            <div class="row">
+              <span class="pr">${clp(p.p)}</span>
+              ${q === 0
+                ? `<button class="add" onclick="mas('${id}')" aria-label="Agregar">+</button>`
+                : `<div class="stp">
+                     <button onclick="menos('${id}')">−</button>
+                     <span class="q">${q}</span>
+                     <button onclick="mas('${id}')">+</button>
+                   </div>`}
+            </div>
+          </div>
+        </article>`;
+      }).join("");
+}
+
+/* ── carro ── */
+const guardar = () => localStorage.setItem("lda_carro", JSON.stringify(carro));
+function mas(id){
+  const p = CATALOGO.find(x => slug(x.n) === id);
+  carro[id] = { n: p.n, p: p.p, q: (carro[id]?.q || 0) + 1 };
+  guardar(); grilla(); pinta();
+}
+function menos(id){
+  if (!carro[id]) return;
+  carro[id].q--; if (carro[id].q <= 0) delete carro[id];
+  guardar(); grilla(); pinta();
+}
+
+function pinta(){
+  const items = Object.entries(carro);
+  const nUn   = items.reduce((s,[,i]) => s + i.q, 0);
+  const sub   = items.reduce((s,[,i]) => s + i.p * i.q, 0);
+  const com   = document.getElementById("comuna").value;
+  const gratis= sub >= ENVIO_MIN;
+  const envio = (!com || com === "otra") ? null : (gratis ? 0 : ENVIO_COSTO);
+
+  document.getElementById("nCarro").textContent = nUn;
+  document.getElementById("sub").textContent    = clp(sub);
+  document.getElementById("tot").textContent    = clp(sub + (envio || 0));
+  document.getElementById("env").textContent    =
+    !com ? "Elige comuna" : com === "otra" ? "Lo coordinamos" : gratis ? "GRATIS 🎉" : clp(ENVIO_COSTO);
+
+  document.getElementById("fab").classList.toggle("on", nUn > 0);
+  document.getElementById("fabTot").textContent = clp(sub);
+  document.getElementById("btnWa").disabled = nUn === 0;
+
+  const falta = ENVIO_MIN - sub;
+  document.getElementById("cartBd").innerHTML = items.length === 0
+    ? `<p class="empty" style="padding:40px 0">Tu carro está vacío.<br>¡Llénalo de espuma! 🫧</p>`
+    : `<div class="free-bar ${gratis ? "ok" : ""}">
+         ${gratis ? "🎉 ¡Despacho gratis conseguido!"
+                  : `Te faltan <b>${clp(falta)}</b> para el despacho gratis`}
+         <div class="track"><div class="fill" style="width:${Math.min(100, sub / ENVIO_MIN * 100)}%"></div></div>
+       </div>` +
+      items.map(([id,i]) => `
+        <div class="ci">
+          <div class="stp">
+            <button onclick="menos('${id}')">−</button>
+            <span class="q">${i.q}</span>
+            <button onclick="mas('${id}')">+</button>
+          </div>
+          <div class="t"><b>${i.n}</b><small>${clp(i.p)} c/u</small></div>
+          <span class="pp">${clp(i.p * i.q)}</span>
+        </div>`).join("");
+}
+
+const abrir  = () => { document.getElementById("cart").classList.add("on");
+                       document.getElementById("scrim").classList.add("on"); };
+const cerrar = () => { document.getElementById("cart").classList.remove("on");
+                       document.getElementById("scrim").classList.remove("on"); };
+
+function pedirWA(){
+  const items = Object.entries(carro);
+  if (!items.length) return;
+  const com   = document.getElementById("comuna").value;
+  const sub   = items.reduce((s,[,i]) => s + i.p * i.q, 0);
+  const gratis= sub >= ENVIO_MIN;
+  const envio = (!com || com === "otra") ? 0 : (gratis ? 0 : ENVIO_COSTO);
+
+  const txt = [
+    "¡Hola Locas del Aseo! 🫧 Quiero pedir:", "",
+    ...items.map(([,i]) => `• ${i.q} × ${i.n} — ${clp(i.p * i.q)}`), "",
+    `Productos: ${clp(sub)}`,
+    `Comuna: ${com === "otra" ? "Otra (coordinar)" : com || "por confirmar"}`,
+    `Despacho: ${!com || com === "otra" ? "a coordinar" : gratis ? "GRATIS" : clp(ENVIO_COSTO)}`,
+    `TOTAL: ${clp(sub + envio)}`, "",
+    "Mi dirección es: "
+  ].join("\n");
+
+  window.open(`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(txt)}`, "_blank");
+}
+
+grilla(); pinta();
+</script>
+</body>
+</html>

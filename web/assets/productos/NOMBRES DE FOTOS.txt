@@ -1,0 +1,64 @@
+FOTOS DEL CATÁLOGO — estado al 21/07/2026
+
+60 de 64 productos ya tienen foto. Las 15 fotos agregadas el 21/07 vinieron
+de Desktop/TODOS EL CATALOGO/ (fotos sueltas con precio ya impreso encima) y
+se procesaron con letterbox (imagen completa dentro de un lienzo cuadrado,
+sin recorte) porque no se puede cortar apretado sin arriesgar el sticker
+de precio. Ver tools/letterbox_fotos_todos_catalogo.py si se guardó ahí,
+o el historial de conversación — el patrón queda documentado abajo.
+
+Los 4 de abajo todavía NO tienen foto: la web les muestra una tarjeta
+de color con ícono, no se rompe nada.
+
+CÓMO AGREGAR UNA FOTO NUEVA (fotos SIN precio impreso, fondo pared blanca)
+1. Sácale la foto al producto contra la pared blanca, sin precio encima.
+2. Déjala en Desktop/PRODUCTOS SOLOS SIN precio.
+3. Agrega la línea en el diccionario MAP de tools/procesar_fotos.py
+   ("slug-del-producto": ("NOMBRE DEL ARCHIVO.jpg", None)).
+   Si en la foto salen dos productos distintos, usa "izq" o "der" en vez de None.
+4. Corre:  python3 tools/procesar_fotos.py
+   El script encuadra, recorta cuadrado (bounding-box) y deja el .jpg listo
+   en esta carpeta. Úsalo SOLO si la foto no trae precio impreso encima.
+
+CÓMO AGREGAR UNA FOTO NUEVA (fotos CON precio ya impreso, tipo sticker abajo)
+NO uses procesar_fotos.py (recortaría apretado y arriesga cortar el precio).
+En su lugar, encaja la imagen completa (sin recortar) en un lienzo cuadrado
+1000x1000 con relleno de color neutro (tomado de las esquinas de la misma
+foto), guardando en esta carpeta como {slug}.jpg. Si hay dos productos
+lado a lado en una sola foto con UN solo sticker de precio compartido,
+parte por la mitad entre ambos productos y duplica el sticker en ambas
+mitades (solo si ambos productos tienen el mismo precio en catalogo.js).
+
+FALTAN (4)
+   TOALLAS HÚMEDAS                       -> toallas-humedas.jpg
+   HIGIÉNICO NOBLE 23 M (6 ROLLOS)       -> higienico-noble-23-m-6-rollos.jpg
+   PAPEL NOVA CLASICA                    -> papel-nova-clasica.jpg
+   ALUSA GRANDE                          -> alusa-grande.jpg
+
+   (Se revisaron Desktop/TODOS EL CATALOGO/ y Desktop/PRODUCTOS SOLOS con
+   precio/ el 21/07 — son la misma sesión de fotos duplicada entre ambas
+   carpetas — y ninguna foto suelta corresponde claramente a estos 4.
+   Falta sacarles foto de cero.)
+
+OJO — DETERGENTE y DETERGENTE 2x usan la misma foto (Fuzol), igual que
+LIMPIAVIDRIOS/WYN LIMPIAVIDRIOS, ANTIGRASA/WYN ANTIGRASA y ahora
+CONFORT/CONFORT 2x (Confort Rendiplus). Si son productos distintos de
+verdad, hay que sacarles foto aparte.
+
+AMBIGÜEDADES A REVISAR (agregado 21/07)
+- higienico-noble-dh-22-m-6-rollos.jpg: la única foto "Noble" encontrada en
+  el lote nuevo decía "Doble Hoja" (=DH 22M, ya cubierto). No sirve para el
+  producto faltante "HIGIÉNICO NOBLE 23 M (6 ROLLOS)" (sin DH, 23m) — son
+  variantes distintas del mismo papel higiénico.
+- toalla-nova.jpg (nueva): la foto decía "Toallas de Papel Nova Clásica".
+  Se asignó a TOALLA NOVA. "PAPEL NOVA CLASICA" sigue sin foto propia —
+  podría ser una variante distinta (¿papel higiénico Nova?) del mismo Nova.
+- Posibles fotos de mejor calidad para productos que YA tienen foto (no se
+  sobreescribió nada, solo queda anotado por si alguien quiere reemplazar
+  a mano): antigrasa.jpg (hay una foto "Fuzol Antigrasa" más limpia y
+  correctamente etiquetada que la actual, que en realidad es un recorte de
+  un producto WYN); esponja-scrup.jpg / esponja-pets.jpg (hay fotos
+  separadas de cada caja Virutex, más claras que el recorte combinado
+  actual); omo-ultra-power-400-doypack.jpg (hay una foto nueva del mismo
+  producto, buena calidad); limpiapisos.jpg (hay foto "Excell Limpiapisos"
+  clara, marca visible).
