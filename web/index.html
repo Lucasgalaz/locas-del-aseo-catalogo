@@ -603,7 +603,7 @@ footer{background:var(--negro);color:#fff;padding:56px 0 30px;margin-top:60px;po
   position:fixed;z-index:105;left:50%;top:50%;transform:translate(-50%,-50%) scale(.94);
   width:min(900px,calc(100% - 26px));max-height:min(90vh,780px);opacity:0;pointer-events:none;
   background:var(--bg);border:1px solid var(--linea);border-radius:26px;overflow:hidden;
-  box-shadow:0 50px 100px -30px rgba(23,19,32,.6);display:grid;grid-template-columns:1fr 1fr;
+  box-shadow:0 50px 100px -30px rgba(23,19,32,.6);display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);
   transition:opacity .28s,transform .34s cubic-bezier(.2,.7,.3,1);
 }
 .ficha.on{opacity:1;pointer-events:auto;transform:translate(-50%,-50%) scale(1)}
@@ -714,7 +714,7 @@ footer{background:var(--negro);color:#fff;padding:56px 0 30px;margin-top:60px;po
   .h-der{min-height:330px}
   .pasos{grid-template-columns:1fr}
   .zona{grid-template-columns:1fr}
-  .ficha{grid-template-columns:1fr;max-height:92vh;width:calc(100% - 20px)}
+  .ficha{grid-template-columns:minmax(0,1fr);max-height:92vh;width:calc(100% - 20px)}
   .ficha-ph{min-height:0;aspect-ratio:1.2}
   .ficha-in{padding:22px}
   .ficha-in h2{font-size:22px}
@@ -753,7 +753,7 @@ footer{background:var(--negro);color:#fff;padding:56px 0 30px;margin-top:60px;po
   .tools .tl{flex:1 0 100%}
   .rng{flex:1;width:auto}
   .cart{width:100%}
-  .ficha{grid-template-columns:1fr;max-height:85vh;overflow-y:auto;align-content:start}
+  .ficha{grid-template-columns:minmax(0,1fr);max-height:85vh;overflow-y:auto;align-content:start}
   .ficha-ph{min-height:auto;height:auto}
   .ficha-in{overflow:visible;padding:22px 20px}
   .ficha-in h2{font-size:22px}
