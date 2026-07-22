@@ -1974,8 +1974,8 @@ $("zComuna").innerHTML = opcionesComuna(TODAS_COMUNAS_RM, true);
 
 /* zona de reparto */
 $("zDer").innerHTML =
-  COMUNAS.map(c => `<span class="cm" data-c="${c}">${c}</span>`).join("") +
-  `<span class="nota">¿Otra comuna? Escríbenos y lo coordinamos igual.</span>`;
+  TODAS_COMUNAS_RM.map(c => `<span class="cm" data-c="${c}">${c}</span>`).join("") +
+  `<span class="nota">¿Tu comuna no está en la lista? Escríbenos y lo coordinamos igual.</span>`;
 function revisaZona(){
   const c = $("zComuna").value;
   const r = $("zRes");
@@ -1996,7 +1996,7 @@ function revisaZona(){
 }
 $("zComuna").onchange = revisaZona;
 $("zDer").onclick = e => {
-  const c = e.target.closest(".cm"); if (!c) return;
+  const c = e.target.closest(".cm"); if (!c || !c.dataset.c) return;
   $("zComuna").value = c.dataset.c;
   revisaZona();
 };
