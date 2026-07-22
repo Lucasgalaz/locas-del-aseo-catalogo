@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <meta name="theme-color" content="#14111A">
 <title>Las Locas del Aseo — El aseo del mes, en tu puerta hoy</title>
-<meta name="description" content="Limpieza, lavandería, papel, cocina, higiene y mascotas. Pides por WhatsApp y te llega el mismo día. Despacho gratis sobre $30.000 en Peñalolén, Macul y La Reina.">
+<meta name="description" content="Limpieza, lavandería, papel, cocina, higiene y mascotas. Pides por WhatsApp. Despacho gratis sobre $30.000 en toda la Región Metropolitana.">
 
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="assets/favicon.png" sizes="32x32">
@@ -828,15 +828,15 @@ footer{background:var(--negro);color:#fff;padding:56px 0 30px;margin-top:60px;po
     <h1>El aseo del mes,<br>en tu puerta <em>hoy</em>.</h1>
     <p class="sub">Limpieza, lavandería, papel, cocina, higiene y mascotas. Armas el pedido, lo mandas por WhatsApp y te llega el mismo día. Sin ir al súper, sin cargar bolsas.</p>
     <div class="acc">
-      <a class="b1" href="#catalogo">Ver los <span id="nProd">64</span> productos</a>
+      <a class="b1" href="#catalogo">Ver los <span id="nProd">68</span> productos</a>
       <a class="b2" id="waTop" href="#" target="_blank" rel="noopener">
         <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.174.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0 0 20.465 3.49"/></svg>
         Escríbenos
       </a>
     </div>
     <div class="stats">
-      <div class="st"><b data-num="64">0</b><span>Productos</span></div>
-      <div class="st"><b data-num="5">0</b><span>Comunas</span></div>
+      <div class="st"><b data-num="68">0</b><span>Productos</span></div>
+      <div class="st"><b data-num="52">0</b><span>Comunas RM</span></div>
       <div class="st"><b>$0</b><span>Despacho sobre $30.000</span></div>
     </div>
   </div>
@@ -855,7 +855,7 @@ footer{background:var(--negro);color:#fff;padding:56px 0 30px;margin-top:60px;po
     </div>
     <div class="cf rv">
       <span class="ci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span>
-      <div><b>Despacho gratis</b><small>Sobre $30.000 en Peñalolén, Macul y La Reina.</small></div>
+      <div><b>Despacho gratis</b><small>Sobre $30.000 en toda la Región Metropolitana.</small></div>
     </div>
     <div class="cf rv">
       <span class="ci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg></span>
@@ -1104,7 +1104,7 @@ footer{background:var(--negro);color:#fff;padding:56px 0 30px;margin-top:60px;po
 /* ═══════════ AJUSTES DEL NEGOCIO — cambia solo esto ═══════════ */
 const WHATSAPP    = "56992513608";
 const ENVIO_MIN   = 30000;
-const ENVIO_COSTO = 2500;
+const ENVIO_COSTO = 3000;
 const COMUNAS     = ["Peñalolén","Macul","La Reina"];
 
 /* Todas las comunas de la Región Metropolitana — solo para el buscador
@@ -1155,12 +1155,12 @@ const VITRINA = [
 ];
 
 const FAQ = [
-  { q:"¿Cuánto se demora en llegar?", r:"Si pides antes de las 18:00 de lunes a sábado, te llega el mismo día. Después de esa hora, a primera hora del día siguiente. Te confirmamos por WhatsApp apenas recibimos el pedido." },
-  { q:"¿Cuánto cuesta el despacho?", r:"Sobre $30.000 es gratis en Peñalolén, Macul y La Reina. Bajo ese monto son $2.500. Para otras comunas despachamos vía Courier (BlueExpress, Starken o Correos). Costos referenciales: Provincia de Santiago desde $2.990, Periferia Urbana desde $3.150, Rural/Lejana desde $4.000." },
+  { q:"¿Cuánto se demora en llegar?", r:"En Peñalolén, Macul y La Reina: si pides antes de las 18:00 de lunes a sábado, te llega el mismo día; después de esa hora, a primera hora del día siguiente. Al resto de la Región Metropolitana lo enviamos vía Courier, entre 1 y 3 días hábiles. Te confirmamos por WhatsApp apenas recibimos el pedido." },
+  { q:"¿Cuánto cuesta el despacho?", r:"Sobre $30.000 el despacho es gratis en cualquier comuna de la Región Metropolitana. Bajo ese monto, son $3.000. En Peñalolén, Macul y La Reina lo llevamos nosotras mismas (mismo día); al resto de la Región Metropolitana lo enviamos vía Courier (BlueExpress, Starken o Correos)." },
   { q:"¿Cómo pago?", r:"Al recibir, en efectivo o por transferencia. Nos confirmas la forma de pago por WhatsApp al cerrar tu pedido. El pago con tarjeta en la web viene más adelante." },
   { q:"¿Necesito crear una cuenta?", r:"No. Armas el carro, tocas enviar y el pedido se escribe solo en tu WhatsApp. Nada de registros ni contraseñas." },
   { q:"¿Puedo pedir algo que no está en el catálogo?", r:"Sí. Escríbenos por WhatsApp y te decimos si lo conseguimos y a qué precio." },
-  { q:"¿Los precios incluyen todo?", r:"Sí, el precio que ves es el que pagas por unidad. El único agregado posible es el despacho, y solo si tu pedido no llega a $30.000 (o si usas Courier)." },
+  { q:"¿Los precios incluyen todo?", r:"Sí, el precio que ves es el que pagas por unidad. El único agregado posible es el despacho, y solo si tu pedido no llega a $30.000." },
 ];
 /* ══════════════════════════════════════════════════════════════ */
 
@@ -1346,9 +1346,9 @@ const revela = sel => document.querySelectorAll(sel).forEach((e,i) => { e.datase
 /* ═════ TICKER ═════ */
 const FRASES = [
   "✨ Que no falte el brillo",
-  "Despacho <b>gratis</b> sobre $30.000 (Peñalolén/Macul/La Reina)",
+  "Despacho <b>gratis</b> sobre $30.000 (toda la Región Metropolitana)",
   "🫧 Ahorra sin dejar de brillar",
-  "Peñalolén · Macul · La Reina · Envíos a todo Santiago",
+  "Peñalolén · Macul · La Reina · Envíos a toda la Región Metropolitana",
   "<b>Llega el mismo día</b>",
   "Pagas al recibir · efectivo o transferencia",
 ].join(" &nbsp;·&nbsp; ") + " &nbsp;·&nbsp; ";
@@ -1983,11 +1983,13 @@ function revisaZona(){
   if (COMUNAS.includes(c)){
     document.querySelector(`.z-der .cm[data-c="${c}"]`)?.classList.add("hit");
     r.className = "z-res on si";
-    r.innerHTML = `🫧 Sí llegamos a <b>${c}</b> · ${e.hoy ? "si pides ahora, te llega hoy" : "el reparto de hoy ya cerró: llega mañana temprano"}. Despacho gratis sobre ${clp(ENVIO_MIN)}.`;
-  } else {
+    r.innerHTML = `🫧 Sí llegamos a <b>${c}</b> · ${e.hoy ? "si pides ahora, te llega hoy" : "el reparto de hoy ya cerró: llega mañana temprano"}. Despacho gratis sobre ${clp(ENVIO_MIN)}, bajo ese monto son ${clp(ENVIO_COSTO)}.`;
+  } else if (c === "otra"){
     r.className = "z-res on no";
-    const nombre = c === "otra" ? "tu comuna" : `<b>${c}</b>`;
-    r.innerHTML = `📍 Por ahora no repartimos en ${nombre}, pero te lo enviamos vía Courier por pagar (BlueExpress/Starken). Cotizaremos al momento de enviar tu pedido.`;
+    r.innerHTML = `📍 Escríbenos y coordinamos tu envío.`;
+  } else {
+    r.className = "z-res on si";
+    r.innerHTML = `🫧 Sí llegamos a <b>${c}</b> vía Courier (1 a 3 días hábiles). Despacho gratis sobre ${clp(ENVIO_MIN)}, bajo ese monto son ${clp(ENVIO_COSTO)}.`;
   }
 }
 $("zComuna").onchange = revisaZona;

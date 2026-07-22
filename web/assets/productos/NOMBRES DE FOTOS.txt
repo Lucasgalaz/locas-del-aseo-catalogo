@@ -29,16 +29,11 @@ lado a lado en una sola foto con UN solo sticker de precio compartido,
 parte por la mitad entre ambos productos y duplica el sticker en ambas
 mitades (solo si ambos productos tienen el mismo precio en catalogo.js).
 
-FALTAN (4)
-   TOALLAS HÚMEDAS                       -> toallas-humedas.jpg
-   HIGIÉNICO NOBLE 23 M (6 ROLLOS)       -> higienico-noble-23-m-6-rollos.jpg
-   PAPEL NOVA CLASICA                    -> papel-nova-clasica.jpg
-   ALUSA GRANDE                          -> alusa-grande.jpg
-
-   (Se revisaron Desktop/TODOS EL CATALOGO/ y Desktop/PRODUCTOS SOLOS con
-   precio/ el 21/07 — son la misma sesión de fotos duplicada entre ambas
-   carpetas — y ninguna foto suelta corresponde claramente a estos 4.
-   Falta sacarles foto de cero.)
+FALTAN (0)
+   (22/07: ALUSA GRANDE resuelta con foto genérica de stretch film provista
+   por el dueño — assets/productos/alusa-grande.jpg. TOALLAS HÚMEDAS,
+   HIGIÉNICO NOBLE 23 M y PAPEL NOVA CLASICA se agregaron entre el 21/07 y
+   el 22/07. Las 68 fotos del catálogo están completas.)
 
 OJO — DETERGENTE y DETERGENTE 2x usan la misma foto (Fuzol), igual que
 LIMPIAVIDRIOS/WYN LIMPIAVIDRIOS, ANTIGRASA/WYN ANTIGRASA y ahora
