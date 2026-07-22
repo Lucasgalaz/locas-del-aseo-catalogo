@@ -1200,7 +1200,7 @@ let carro  = JSON.parse(localStorage.getItem("lda_carro") || "{}");
 let favs   = new Set(JSON.parse(localStorage.getItem("lda_favs") || "[]"));
 let filtro = "Todo", busca = "", orden = "rec", tope = 7000;
 let soloFoto = false, soloFav = false, fichaId = null, pagina = 1;
-const POR_PAGINA = 24;
+const POR_PAGINA = 9999; // catálogo completo siempre visible, sin "ver más"
 
 const suave = matchMedia("(prefers-reduced-motion: reduce)").matches;
 const movil = matchMedia("(max-width: 760px)").matches;
