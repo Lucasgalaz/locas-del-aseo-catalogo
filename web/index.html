@@ -265,7 +265,7 @@ header{position:sticky;top:0;z-index:75;background:rgba(255,255,255,.82);backdro
 .st b{display:block;font-family:'Bricolage Grotesque',sans-serif;font-size:26px;font-weight:800;letter-spacing:-.03em}
 .st span{font-size:11.5px;color:#9C94A8;letter-spacing:.06em;text-transform:uppercase;font-weight:600}
 .st-ship b{color:var(--ac);font-size:21px;white-space:nowrap}
-.st-ship span{color:var(--au1);font-weight:700}
+.st-ship span{color:rgba(255,255,255,.78);font-weight:700}
 
 /* carrusel del hero */
 .h-der{position:relative;border-radius:26px;overflow:hidden;background:var(--panel);border:1px solid var(--linea);box-shadow:var(--som);min-height:clamp(390px,42vw,520px)}
@@ -839,7 +839,7 @@ footer{background:var(--negro);color:#fff;padding:56px 0 30px;margin-top:60px;po
     <div class="stats">
       <div class="st"><b data-num="68">0</b><span>Productos</span></div>
       <div class="st"><b data-num="52">0</b><span>Comunas RM</span></div>
-      <div class="st st-ship"><b>Envío gratis</b><span>Despacho sobre $30.000</span></div>
+      <div class="st st-ship"><b>Envío gratis</b><span>En pedidos sobre $30.000</span></div>
     </div>
   </div>
 
@@ -1136,14 +1136,14 @@ const MAS_PEDIDOS = [
 /* Packs: los nombres tienen que ser IDÉNTICOS a los del catálogo.
    Si un producto sale del Excel, el pack se arma igual con el resto. */
 const PACKS = [
-  { e:"🏠", n:"Pack Casa Completa", d:"El mes resuelto: piso, baño, cocina y papel.",
-    items:["DETERGENTE","LIMPIAPISOS","CLORO GEL IMPEKE","LAVALOZAS QUIX","ANTIGRASA","LIMPIAVIDRIOS","CONFORT 2x","TOALLA NOVA","BOLSA BASURA ÓPTIMO 50x70 (10 UN)","ESPONJA ABSORBENTE x3","PAÑO MICROFIBRA 2x"] },
-  { e:"🚿", n:"Pack Baño", d:"Cloro, pastilla, desinfectante y papel. El baño al día sin pensarlo.",
-    items:["CLORO GEL IMPEKE","PASTILLA WC PATO","CONFORT 2x","DESINFECTANTE IGENIX LAVANDA 360","ESPONJA ACANALADA","JABON POPEYE"] },
-  { e:"👕", n:"Pack Lavandería", d:"Detergente para el mes, quitamanchas y cloro para ropa de color.",
-    items:["DETERGENTE 2x","OMO ULTRA POWER 400 DOYPACK","VANISH QUITAMANCHAS ROSA 300","CLOROX ROPA COLORES VIVOS 370"] },
-  { e:"🍳", n:"Pack Cocina", d:"Grasa, loza, bolsas y todo lo que se acaba primero.",
-    items:["LAVALOZAS QUIX","WYN ANTIGRASA","ALUSA FILM 20 MTS","BOLSA BASURA ÓPTIMO 50x70 (10 UN)","ESPUMITA DE METAL DOM","TOALLA NOVA","ILKO PAPEL ALUMINIO 7.5 M"] },
+  { e:"🏠", n:"Pack Casa Completa", d:"El mes completo: limpieza, papel, desinfección y cocina para toda la casa.",
+    items:["DETERGENTE FUZOL","DETERGENTE FUZOL 2x","CIF CREMA 750 TRADICIONAL","LAVALOZAS QUIX","LIMPIAPISOS","ANTIGRASA","LIMPIAVIDRIOS","DESENGRASANTE WINNEX","LUSTRAMUEBLES","SCOTT PAPEL HIGIENICO 2 PACK","TOALLAS HÚMEDAS","CIF VIDRIOS 450 DOYPACK","VANISH QUITAMANCHAS ROSA 300","OMO ULTRA POWER 400 DOYPACK","CONFORT 2x","TOALLA NOVA","TOALLA SWAN 70MTS","HIGIÉNICO NOBLE DH 22 M (6 ROLLOS)","PAPEL NOVA CLASICA","CLORO GEL IMPEKE","PASTILLA WC PATO","DESINFECTANTE IGENIX LAVANDA 360","GLADE FLORES TROPICALES 360","CLORINDA TRADICIONAL 1 L","ALUSA FILM 20 MTS","BOLSA BASURA ÓPTIMO 50x70 (10 UN)","ILKO PAPEL ALUMINIO 7.5 M","ESPONJA ABSORBENTE x3","PAÑO MICROFIBRA 2x"] },
+  { e:"🚿", n:"Pack Baño", d:"Shampoo, papel higiénico, cloro y desinfectante: el baño de toda la familia, resuelto.",
+    items:["CLORO GEL IMPEKE","PASTILLA WC PATO","CONFORT 2x","DESINFECTANTE IGENIX LAVANDA 360","DESINFECTANTE IGENIX TRADICIONAL 360","ESPONJA ACANALADA","JABON POPEYE","CLORINDA CLORO COLOR 930","SHAMPOO SEDAL","ACONDICIONADOR SEDAL","SHAMPOO PANTENE","ACONDICIONADOR PANTENE","DESODORANTE MUJER NIVEA","DESODORANTE HOMBRE NIVEA","TOALLA LADYSOFT DIA","TOALLA LADYSOFT NOCTURNA","TOALLITAS BABYSEC 45 C/TAPA","HIGIÉNICO NOBLE 23 M (6 ROLLOS)","PRESTOBARBA 3 HOJAS"] },
+  { e:"👕", n:"Pack Lavandería", d:"Detergente para el mes, cloro para ropa y quitamanchas: la pieza de lavado lista.",
+    items:["DETERGENTE FUZOL 2x","DETERGENTE FUZOL","DETERGENTE RINSO 500ML","OMO ULTRA POWER 400 DOYPACK","VANISH QUITAMANCHAS ROSA 300","CLOROX ROPA COLORES VIVOS 370","CLORO CONCENTRADO IMPEKE","CLORINDA CLORO COLOR 930","CLORINDA TRADICIONAL 1 L","BOLSA BASURA ÓPTIMO 50x70 (10 UN)"] },
+  { e:"🍳", n:"Pack Cocina", d:"Lavaloza, desengrasante, alusa y bolsas: todo lo que se acaba primero en la cocina.",
+    items:["LAVALOZAS QUIX","WYN ANTIGRASA","ALUSA FILM 20 MTS","ALUSA GRANDE","BOLSA BASURA ÓPTIMO 50x70 (10 UN)","ESPUMITA DE METAL DOM","TOALLA NOVA","ILKO PAPEL ALUMINIO 7.5 M","NECTAR SPRIM","CIF CREMA 750 TRADICIONAL","CIF CREMA 375 BIOACTIVE","CIF VIDRIOS 450 DOYPACK","WYN LIMPIAVIDRIOS","DESENGRASANTE WINNEX","ESPONJA SCRUP","ESPONJA PETS","SERVILLETA GIULIETTA CÓCTEL 300"] },
 ];
 
 /* Lo que más se olvida. Se ofrece en el carro si no va en el pedido. */
