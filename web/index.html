@@ -608,11 +608,18 @@ footer{background:var(--negro);color:#fff;padding:56px 0 30px;margin-top:60px;po
 }
 .ficha.on{opacity:1;pointer-events:auto;transform:translate(-50%,-50%) scale(1)}
 .ficha-ph{position:relative;overflow:hidden;cursor:zoom-in;aspect-ratio:1/1;background:var(--ac-luz)}
-.ficha-ph img{width:100%;height:100%;object-fit:contain;transition:transform .45s cubic-bezier(.2,.7,.3,1)}
-.ficha-ph.zoom{cursor:zoom-out}
-.ficha-ph.zoom img{transform:scale(2.2)}
+.ficha-ph img{width:100%;height:100%;object-fit:contain;transition:transform .2s cubic-bezier(.2,.7,.3,1)}
+.ficha-ph:active img{transform:scale(.97)}
 .ficha-ph .fb{font-size:78px}
 .ficha-ph .lupa{position:absolute;left:12px;bottom:12px;background:rgba(255,255,255,.9);border:1px solid var(--linea);border-radius:999px;padding:5px 11px;font-size:11px;font-weight:700;color:var(--gris);pointer-events:none}
+
+/* ══════════ LIGHTBOX (foto a pantalla completa) ══════════ */
+.lightbox{position:fixed;inset:0;z-index:200;background:rgba(20,17,26,.94);display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .22s}
+.lightbox.on{opacity:1;pointer-events:auto}
+.lightbox-ph{width:100%;max-width:560px;max-height:calc(100vh - 40px);aspect-ratio:1/1;border-radius:22px;overflow:hidden;background:var(--ac-luz)}
+.lightbox-ph img{width:100%;height:100%;object-fit:contain}
+.lightbox-x{position:absolute;right:16px;top:calc(16px + env(safe-area-inset-top));z-index:2;width:42px;height:42px;border-radius:999px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.24);color:#fff;font-size:24px;line-height:1;display:grid;place-items:center}
+.lightbox-x:hover{background:rgba(255,255,255,.24)}
 .ficha-x{position:absolute;right:12px;top:12px;z-index:3;width:38px;height:38px;border-radius:999px;
   background:rgba(255,255,255,.94);border:1px solid var(--linea);font-size:22px;line-height:1;display:grid;place-items:center}
 .ficha-x:hover{background:var(--negro);color:#fff}
@@ -1060,6 +1067,12 @@ footer{background:var(--negro);color:#fff;padding:56px 0 30px;margin-top:60px;po
     <div class="f-rel" id="fRel"></div>
   </div>
 </aside>
+
+<!-- ══════ LIGHTBOX FOTO ══════ -->
+<div class="lightbox" id="lightbox" onclick="cerrarLightbox()">
+  <button class="lightbox-x" onclick="event.stopPropagation();cerrarLightbox()" aria-label="Cerrar foto">×</button>
+  <div class="lightbox-ph" id="lightboxPh" onclick="event.stopPropagation()"></div>
+</div>
 
 <!-- ══════ CARRO ══════ -->
 <div class="scrim" id="scrim" onclick="cerrarTodo()"></div>
@@ -1732,13 +1745,21 @@ function abreFicha(id){
 function cierraFicha(){
   fichaId = null;
   $("ficha").classList.remove("on");
-  $("fPh").classList.remove("zoom");
+  cerrarLightbox();
   if (!$("cart").classList.contains("on")){ $("scrim").classList.remove("on"); document.body.style.overflow = ""; }
 }
 function zoom(){
-  if (!$("fPh").querySelector("img")) return;
-  $("fPh").classList.toggle("zoom");
-  $("fLupa").textContent = $("fPh").classList.contains("zoom") ? "Toca para alejar" : "Toca para acercar";
+  const img = $("fPh").querySelector("img");
+  if (!img) return;
+  $("lightboxPh").innerHTML = "";
+  const im = new Image();
+  im.src = img.src;
+  im.alt = img.alt;
+  $("lightboxPh").appendChild(im);
+  $("lightbox").classList.add("on");
+}
+function cerrarLightbox(){
+  $("lightbox").classList.remove("on");
 }
 function pintaFicha(){
   const p = porId(fichaId); if (!p) return;
