@@ -49,29 +49,72 @@
   .barra-guardar{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid #dde7e5;padding:12px 20px;display:flex;justify-content:center;box-shadow:0 -6px 20px rgba(0,0,0,.05);}
   .barra-guardar .contenido{max-width:1100px;width:100%;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;}
   .cambios{font-size:12.5px;color:#a3691f;font-weight:700;}
+
+  .tabs{display:flex;gap:6px;}
+  .tab{background:#fff;color:#4a5b5f;border:1.5px solid #cddcda;font-weight:700;padding:8px 15px;border-radius:10px;font-size:13.5px;}
+  .tab.activo{background:#0f6e56;color:#fff;border-color:#0f6e56;}
+
+  .pkA{background:#fff;border:1px solid #e4ece9;border-radius:14px;padding:16px;margin-bottom:14px;}
+  .pkA-top{display:flex;gap:8px;align-items:center;margin-bottom:8px;}
+  .emoji-in{width:52px;text-align:center;font-size:17px;flex:0 0 auto;}
+  .pkA-top .nombre-in{flex:1;}
+  .desc-in{width:100%;min-height:52px;font:inherit;border:1px solid #cddcda;border-radius:8px;padding:8px 10px;resize:vertical;background:#fff;color:#22333a;}
+  .aviso-perdido{font-size:12px;color:#a3691f;background:#fff7ec;border:1px solid #f0dfc0;border-radius:8px;padding:7px 10px;margin-top:8px;}
+  .pkA-resumen{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:10px;flex-wrap:wrap;}
+  .conteo-pack{font-size:12.5px;color:#4a5b5f;}
+  .conteo-pack b{color:#0f6e56}
+  .btn-secundario.chico{padding:6px 12px;font-size:12.5px;}
+  .picker{margin-top:12px;border-top:1px solid #e4ece9;padding-top:12px;}
+  .buscar-picker{width:100%;max-width:100%;padding:8px 11px;font-size:13.5px;margin-bottom:8px;}
+  .picker-lista{max-height:300px;overflow-y:auto;border:1px solid #e4ece9;border-radius:10px;}
+  .picker-cat{font-size:11px;text-transform:uppercase;letter-spacing:.03em;font-weight:700;color:#6b7c80;background:#f4f8f7;padding:6px 12px;position:sticky;top:0;}
+  .picker-fila{display:flex;align-items:center;gap:10px;padding:7px 12px;border-top:1px solid #eef3f2;font-size:13.5px;}
+  .picker-fila:hover{background:#f7fbfa;}
+  .pf-check{display:flex;align-items:center;gap:10px;flex:1;min-width:0;cursor:pointer;}
+  .pf-check input{margin:0;flex:0 0 auto;}
+  .pf-n{flex:1;min-width:0;}
+  .pf-q{width:52px;text-align:center;padding:5px 4px;flex:0 0 auto;}
+  .pf-q:disabled{opacity:.4;}
+  .pf-p{color:#6b7c80;font-size:12.5px;flex:0 0 auto;min-width:52px;text-align:right;}
 </style>
 </head>
 <body>
 <header>
   <div>
     <h1>🫧 Locas del Aseo — Panel</h1>
-    <div class="sub">Editar nombres, precios, categorías y fotos del catálogo</div>
+    <div class="sub" id="subtitulo">Editar nombres, precios, categorías y fotos del catálogo</div>
   </div>
-  <input id="buscar" placeholder="Buscar producto…">
+  <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
+    <input id="buscar" placeholder="Buscar producto…">
+    <div class="tabs">
+      <button class="tab activo" id="tabProductos">Productos</button>
+      <button class="tab" id="tabPacks">Packs</button>
+    </div>
+  </div>
 </header>
 
 <div class="wrap">
-  <div class="toolbar">
-    <button class="btn-secundario" id="agregar">+ Agregar producto</button>
-    <span class="conteo" id="conteo"></span>
+  <div id="vistaProductos">
+    <div class="toolbar">
+      <button class="btn-secundario" id="agregar">+ Agregar producto</button>
+      <span class="conteo" id="conteo"></span>
+    </div>
+
+    <table>
+      <thead>
+        <tr><th>Foto</th><th>Producto</th><th>Precio</th><th>Categoría</th><th></th></tr>
+      </thead>
+      <tbody id="filas"></tbody>
+    </table>
   </div>
 
-  <table>
-    <thead>
-      <tr><th>Foto</th><th>Producto</th><th>Precio</th><th>Categoría</th><th></th></tr>
-    </thead>
-    <tbody id="filas"></tbody>
-  </table>
+  <div id="vistaPacks" style="display:none">
+    <div class="toolbar">
+      <button class="btn-secundario" id="agregarPack">+ Agregar pack</button>
+      <span class="conteo" id="conteoPacks"></span>
+    </div>
+    <div id="packsLista"></div>
+  </div>
 </div>
 
 <div class="barra-guardar">
@@ -87,8 +130,10 @@
 "use strict";
 let CATEGORIAS = [];
 let FOTOS = new Set();
-let filas = []; // {n,p,c, _fila: <tr>}
+let filas = []; // {n,p,c}
+let PACKS_ADM = []; // {e,n,d,items:[nombre,...]}
 let sucio = false;
+let vista = "productos";
 
 const $ = s => document.querySelector(s);
 const clp = n => "$" + (Number(n) || 0).toLocaleString("es-CL");
@@ -115,6 +160,220 @@ async function cargar() {
   FOTOS = new Set(d.fotos);
   filas = d.productos.map(p => ({ ...p }));
   dibujar();
+}
+
+/* ═══════════ TABS ═══════════ */
+function cambiarVista(v) {
+  vista = v;
+  $("#vistaProductos").style.display = v === "productos" ? "" : "none";
+  $("#vistaPacks").style.display = v === "packs" ? "" : "none";
+  $("#tabProductos").classList.toggle("activo", v === "productos");
+  $("#tabPacks").classList.toggle("activo", v === "packs");
+  $("#buscar").style.display = v === "productos" ? "" : "none";
+  $("#subtitulo").textContent = v === "productos"
+    ? "Editar nombres, precios, categorías y fotos del catálogo"
+    : "Armar packs a mano: eligiendo qué productos incluye cada uno";
+  if (v === "packs") dibujarPacks(); // refleja cambios de nombre/precio hechos en Productos
+}
+$("#tabProductos").addEventListener("click", () => cambiarVista("productos"));
+$("#tabPacks").addEventListener("click", () => cambiarVista("packs"));
+
+/* ═══════════ PACKS ═══════════ */
+async function cargarPacks() {
+  const r = await fetch("/api/packs");
+  const d = await r.json();
+  PACKS_ADM = (d.packs || []).map(pk => ({
+    e: pk.e || "🧴", n: pk.n || "", d: pk.d || "",
+    items: (pk.items || []).map(it => typeof it === "string" ? { n: it, q: 1 } : { n: it.n, q: Number(it.q) || 1 }),
+  }));
+  dibujarPacks();
+}
+
+function totalPack(pk) {
+  return pk.items.reduce((s, it) => {
+    const p = filas.find(x => x.n === it.n);
+    return s + (p ? p.p * it.q : 0);
+  }, 0);
+}
+
+function unidadesPack(pk) {
+  return pk.items.reduce((s, it) => s + it.q, 0);
+}
+
+function dibujarPacks() {
+  const cont = $("#packsLista");
+  cont.innerHTML = "";
+  PACKS_ADM.forEach((pk, i) => {
+    const perdidos = pk.items.filter(it => !filas.some(p => p.n === it.n));
+    const card = document.createElement("div");
+    card.className = "pkA";
+    card.innerHTML = `
+      <div class="pkA-top">
+        <input class="emoji-in" maxlength="4" value="${pk.e}" data-e="${i}" title="Emoji del pack">
+        <input class="nombre-in" value="${pk.n}" placeholder="Nombre del pack" data-n="${i}">
+        <button class="icon-btn" data-borrar-pack="${i}" title="Eliminar pack">🗑</button>
+      </div>
+      <textarea class="desc-in" placeholder="Descripción que ve el cliente al tocar el pack: qué incluye, para qué sirve" data-d="${i}">${pk.d}</textarea>
+      ${perdidos.length ? `<div class="aviso-perdido">⚠ ${perdidos.length} producto(s) de este pack ya no están en el catálogo: ${perdidos.map(it => it.n).join(", ")}</div>` : ""}
+      <div class="pkA-resumen">
+        <span class="conteo-pack" data-conteo="${i}">${resumenPack(pk)}</span>
+        <button class="btn-secundario chico" data-toggle-picker="${i}">Elegir productos y cantidades</button>
+      </div>
+      <div class="picker" data-picker="${i}" hidden>
+        <input class="buscar-picker" placeholder="Buscar producto…" data-buscar="${i}">
+        <div class="picker-lista" data-lista="${i}"></div>
+      </div>`;
+    cont.appendChild(card);
+    dibujarPicker(i);
+  });
+  $("#conteoPacks").innerHTML = `<b>${PACKS_ADM.length}</b> pack${PACKS_ADM.length === 1 ? "" : "s"}`;
+}
+
+function resumenPack(pk) {
+  const n = pk.items.length, u = unidadesPack(pk);
+  return `<b>${n}</b> producto${n === 1 ? "" : "s"}${u !== n ? ` · <b>${u}</b> unidades` : ""} · <b>${clp(totalPack(pk))}</b>`;
+}
+
+function dibujarPicker(i) {
+  const pk = PACKS_ADM[i];
+  const cont = document.querySelector(`[data-lista="${i}"]`);
+  const porCat = {};
+  filas.forEach((p, idx) => { (porCat[p.c] ||= []).push({ p, idx }); });
+  cont.innerHTML = Object.keys(porCat).sort().map(cat => `
+      <div class="picker-cat">${cat}</div>
+      ${porCat[cat].map(({ p, idx }) => {
+        const item = pk.items.find(it => it.n === p.n);
+        return `
+        <div class="picker-fila">
+          <label class="pf-check"><input type="checkbox" data-pick="${i}" data-idx="${idx}" ${item ? "checked" : ""}><span class="pf-n">${p.n}</span></label>
+          <input type="number" class="pf-q" min="1" step="1" value="${item ? item.q : 1}" data-qty="${i}" data-idx="${idx}" ${item ? "" : "disabled"} title="Cantidad en el pack">
+          <span class="pf-p">${clp(p.p)}</span>
+        </div>`;
+      }).join("")}`
+  ).join("");
+}
+
+function filtrarPicker(i, q) {
+  q = q.trim().toLowerCase();
+  const cont = document.querySelector(`[data-lista="${i}"]`);
+  cont.querySelectorAll(".picker-fila").forEach(fila => {
+    const nombre = fila.querySelector(".pf-n").textContent.toLowerCase();
+    fila.style.display = !q || nombre.includes(q) ? "" : "none";
+  });
+  cont.querySelectorAll(".picker-cat").forEach(catEl => {
+    let el = catEl.nextElementSibling, visible = false;
+    while (el && !el.classList.contains("picker-cat")) {
+      if (el.style.display !== "none") visible = true;
+      el = el.nextElementSibling;
+    }
+    catEl.style.display = visible ? "" : "none";
+  });
+}
+
+$("#packsLista").addEventListener("input", e => {
+  const iE = e.target.closest("[data-e]");
+  if (iE) { PACKS_ADM[iE.dataset.e].e = iE.value; marcarSucio(); return; }
+  const iN = e.target.closest("[data-n]");
+  if (iN) { PACKS_ADM[iN.dataset.n].n = iN.value; marcarSucio(); return; }
+  const iD = e.target.closest("[data-d]");
+  if (iD) { PACKS_ADM[iD.dataset.d].d = iD.value; marcarSucio(); return; }
+  const iB = e.target.closest("[data-buscar]");
+  if (iB) { filtrarPicker(Number(iB.dataset.buscar), iB.value); return; }
+});
+
+function actualizaConteoPack(i) {
+  const el = document.querySelector(`[data-conteo="${i}"]`);
+  if (el) el.innerHTML = resumenPack(PACKS_ADM[i]);
+}
+
+$("#packsLista").addEventListener("change", e => {
+  const chk = e.target.closest("[data-pick]");
+  if (chk) {
+    const i = Number(chk.dataset.pick);
+    const p = filas[Number(chk.dataset.idx)];
+    const pk = PACKS_ADM[i];
+    const qtyInput = chk.closest(".picker-fila").querySelector(".pf-q");
+    if (chk.checked) {
+      const q = Math.max(1, parseInt(qtyInput.value, 10) || 1);
+      qtyInput.value = q;
+      qtyInput.disabled = false;
+      const existente = pk.items.find(it => it.n === p.n);
+      if (existente) existente.q = q; else pk.items.push({ n: p.n, q });
+    } else {
+      qtyInput.disabled = true;
+      pk.items = pk.items.filter(it => it.n !== p.n);
+    }
+    marcarSucio();
+    actualizaConteoPack(i);
+    return;
+  }
+
+  const qi = e.target.closest("[data-qty]");
+  if (qi) {
+    const i = Number(qi.dataset.qty);
+    const p = filas[Number(qi.dataset.idx)];
+    const pk = PACKS_ADM[i];
+    const item = pk.items.find(it => it.n === p.n);
+    if (!item) return;
+    const q = Math.max(1, parseInt(qi.value, 10) || 1);
+    qi.value = q;
+    item.q = q;
+    marcarSucio();
+    actualizaConteoPack(i);
+  }
+});
+
+$("#packsLista").addEventListener("click", e => {
+  const tg = e.target.closest("[data-toggle-picker]");
+  if (tg) {
+    const picker = document.querySelector(`[data-picker="${tg.dataset.togglePicker}"]`);
+    const abierto = !picker.hasAttribute("hidden");
+    picker.toggleAttribute("hidden", abierto);
+    tg.textContent = abierto ? "Elegir productos" : "Ocultar productos";
+    return;
+  }
+  const bp = e.target.closest("[data-borrar-pack]");
+  if (bp) {
+    const i = Number(bp.dataset.borrarPack);
+    if (confirm(`¿Eliminar el pack "${PACKS_ADM[i].n || "sin nombre"}"?`)) {
+      PACKS_ADM.splice(i, 1);
+      marcarSucio();
+      dibujarPacks();
+    }
+  }
+});
+
+$("#agregarPack").addEventListener("click", () => {
+  PACKS_ADM.unshift({ e: "🧴", n: "", d: "", items: [] });
+  marcarSucio();
+  dibujarPacks();
+});
+
+async function guardarPacks() {
+  const sinNombre = PACKS_ADM.filter(pk => !pk.n.trim());
+  if (sinNombre.length) {
+    toast("Hay packs sin nombre — complétalos o elimínalos antes de guardar", true);
+    return;
+  }
+  $("#guardar").disabled = true;
+  $("#guardar").textContent = "Guardando…";
+  try {
+    const r = await fetch("/api/packs/guardar", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ packs: PACKS_ADM }),
+    });
+    const d = await r.json();
+    if (!r.ok || d.error) throw new Error(d.error || "error guardando");
+    sucio = false;
+    $("#cambios").textContent = "";
+    toast(`Guardado: ${d.total} packs. Ya se ve reflejado en la web.`);
+  } catch (err) {
+    toast("No se pudo guardar: " + err.message, true);
+  } finally {
+    $("#guardar").disabled = false;
+    $("#guardar").textContent = "Guardar cambios";
+  }
 }
 
 function dibujar(filtro) {
@@ -234,7 +493,7 @@ $("#agregar").addEventListener("click", () => {
   if (primerInput) primerInput.focus();
 });
 
-$("#guardar").addEventListener("click", async () => {
+async function guardarProductos() {
   const invalidos = filas.filter(p => !p.n.trim());
   if (invalidos.length) {
     toast("Hay productos sin nombre — complétalos o elimínalos antes de guardar", true);
@@ -259,13 +518,18 @@ $("#guardar").addEventListener("click", async () => {
     $("#guardar").disabled = false;
     $("#guardar").textContent = "Guardar cambios";
   }
+}
+
+$("#guardar").addEventListener("click", () => {
+  if (vista === "packs") guardarPacks();
+  else guardarProductos();
 });
 
 window.addEventListener("beforeunload", e => {
   if (sucio) { e.preventDefault(); e.returnValue = ""; }
 });
 
-cargar();
+cargar().then(cargarPacks);
 </script>
 </body>
 </html>

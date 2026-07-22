@@ -25,6 +25,7 @@ PUERTO = 8765
 RAIZ        = Path(__file__).resolve().parent.parent
 WEB         = RAIZ / "web"
 CATALOGO_JS = WEB / "assets" / "catalogo.js"
+PACKS_JS    = WEB / "assets" / "packs.js"
 SW_JS       = WEB / "sw.js"
 FOTOS_DIR   = WEB / "assets" / "productos"
 ADMIN_DIR   = Path(__file__).resolve().parent
@@ -57,6 +58,27 @@ def escribir_catalogo(productos):
         f"const CATALOGO = {cuerpo};\n"
     )
     CATALOGO_JS.write_text(texto, encoding="utf-8")
+
+
+def leer_packs():
+    if not PACKS_JS.is_file():
+        return []
+    texto = PACKS_JS.read_text(encoding="utf-8")
+    m = re.search(r"const\s+PACKS\s*=\s*(\[.*\])\s*;", texto, re.S)
+    if not m:
+        raise ValueError("No se pudo leer el array PACKS de packs.js")
+    return json.loads(m.group(1))
+
+
+def escribir_packs(packs):
+    cuerpo = json.dumps(packs, indent=1, ensure_ascii=False)
+    texto = (
+        "// Packs armados a mano. Cada item de \"items\" es {n, q}: n = nombre IDÉNTICO al del "
+        "catálogo (catalogo.js), q = cantidad.\n"
+        "// Se editan desde el Panel de administración (pestaña \"Packs\"), no a mano.\n"
+        f"const PACKS = {cuerpo};\n"
+    )
+    PACKS_JS.write_text(texto, encoding="utf-8")
 
 
 def subir_version():
@@ -132,6 +154,13 @@ class Handler(BaseHTTPRequestHandler):
                 return
             fotos = {p.stem for p in FOTOS_DIR.glob("*.jpg")} if FOTOS_DIR.is_dir() else set()
             self._json({"productos": productos, "categorias": CATEGORIAS, "fotos": sorted(fotos)})
+        elif ruta == "/api/packs":
+            try:
+                packs = leer_packs()
+            except Exception as e:
+                self._json({"error": str(e)}, 500)
+                return
+            self._json({"packs": packs})
         elif ruta.startswith("/assets/"):
             objetivo = (WEB / ruta.lstrip("/")).resolve()
             if WEB.resolve() in objetivo.parents:
@@ -189,6 +218,38 @@ class Handler(BaseHTTPRequestHandler):
                 self._json({"error": str(e)}, 500)
                 return
             self._json({"ok": True, "slug": sid})
+
+        elif ruta == "/api/packs/guardar":
+            packs = cuerpo.get("packs", [])
+            limpios = []
+            for pk in packs:
+                nombre = str(pk.get("n", "")).strip()
+                if not nombre:
+                    continue
+                emoji = str(pk.get("e", "")).strip() or "🧴"
+                desc = str(pk.get("d", "")).strip()
+                items, vistos = [], set()
+                for it in pk.get("items", []):
+                    if isinstance(it, dict):
+                        n = str(it.get("n", "")).strip()
+                        try:
+                            q = int(round(float(it.get("q", 1))))
+                        except (TypeError, ValueError):
+                            q = 1
+                    else:
+                        n, q = str(it).strip(), 1
+                    if not n or n in vistos:
+                        continue
+                    vistos.add(n)
+                    items.append({"n": n, "q": max(1, q)})
+                limpios.append({"e": emoji, "n": nombre, "d": desc, "items": items})
+            try:
+                escribir_packs(limpios)
+                subir_version()
+            except Exception as e:
+                self._json({"error": str(e)}, 500)
+                return
+            self._json({"ok": True, "total": len(limpios)})
 
         elif ruta == "/api/foto/borrar":
             nombre = str(cuerpo.get("nombre", "")).strip()

@@ -459,6 +459,19 @@ section{position:relative;z-index:3}
 .pk-go:hover{background:linear-gradient(115deg,var(--ac-a),var(--ac-b))}
 .pk-go.listo{background:#fff;color:var(--ac-txt);border:1.5px solid var(--ac)}
 
+/* ── ficha de pack (qué incluye) ── */
+.pkficha{grid-template-columns:minmax(0,1fr)!important}
+.pkficha .ficha-in{padding:30px}
+#pkfE{font-size:34px;line-height:1;display:block;margin-bottom:2px}
+.pkf-items{display:flex;flex-direction:column;max-height:min(38vh,320px);overflow-y:auto;margin-top:2px;padding-right:4px}
+.pkf-row{display:flex;gap:11px;align-items:center;padding:9px 0;border-bottom:1px solid var(--linea)}
+.pkf-row:last-child{border-bottom:0}
+.pkf-row .cim{width:38px;height:38px;flex:0 0 auto;border-radius:10px;overflow:hidden;background:var(--ac-luz);display:grid;place-items:center;font-size:16px}
+.pkf-row .cim img{width:100%;height:100%;object-fit:cover}
+.pkf-row b{flex:1;min-width:0;font-size:13.5px;font-weight:600;line-height:1.3}
+.pkf-row .pkf-q{flex:0 0 auto;font-family:'Bricolage Grotesque',sans-serif;font-size:11.5px;font-weight:800;color:var(--gris-cl);background:var(--ac-luz);border-radius:999px;padding:2px 8px}
+.pkf-row .pp{flex:0 0 auto;font-family:'Bricolage Grotesque',sans-serif;font-size:13.5px;font-weight:800;white-space:nowrap;color:var(--ac-txt)}
+
 /* ── cómo funciona ── */
 .pasos{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
 .ps{
@@ -554,6 +567,9 @@ footer{background:var(--negro);color:#fff;padding:56px 0 30px;margin-top:60px;po
 .cart-hd small{display:block;color:#9C94A8;font-size:12px;font-weight:600;font-family:'Instrument Sans',sans-serif;letter-spacing:0}
 .x{background:none;border:0;font-size:28px;color:#fff;line-height:1;width:var(--tap);height:var(--tap);border-radius:999px}
 .x:hover{background:rgba(255,255,255,.12)}
+.cart-vaciar{background:none;border:1.5px solid rgba(255,255,255,.28);color:#fff;font-size:11.5px;font-weight:700;padding:8px 13px;border-radius:999px;opacity:.85;transition:.2s;white-space:nowrap;font-family:'Instrument Sans',sans-serif}
+.cart-vaciar:hover{background:rgba(255,255,255,.14);opacity:1}
+.cart-vaciar:disabled{opacity:.3;pointer-events:none}
 .cart-bd{flex:1;overflow-y:auto;padding:16px 20px;-webkit-overflow-scrolling:touch}
 .entrega{display:flex;align-items:center;gap:9px;margin-bottom:12px;padding:11px 13px;background:var(--ac-luz);border-radius:12px;
   font-size:12.5px;font-weight:700;color:var(--ac-txt);line-height:1.35}
@@ -921,18 +937,6 @@ footer{background:var(--negro);color:#fff;padding:56px 0 30px;margin-top:60px;po
   <div class="riel" id="riel"></div>
 </section>
 
-<!-- ══════ PACKS ══════ -->
-<section class="wrap">
-  <div class="hd">
-    <div class="t">
-      <span class="kicker">Un toque y queda armado</span>
-      <h2>Packs listos</h2>
-      <p>El aseo resuelto sin pensar producto por producto.</p>
-    </div>
-  </div>
-  <div class="packs" id="packs"></div>
-</section>
-
 <!-- ══════ CATÁLOGO ══════ -->
 <section class="wrap" id="catalogo">
   <div class="hd">
@@ -966,6 +970,18 @@ footer{background:var(--negro);color:#fff;padding:56px 0 30px;margin-top:60px;po
 
   <div class="grid" id="grid"></div>
   <div class="vermas" id="vermas" style="display:none"><button onclick="masProductos()">Ver más productos</button></div>
+</section>
+
+<!-- ══════ PACKS ══════ -->
+<section class="wrap">
+  <div class="hd">
+    <div class="t">
+      <span class="kicker">Un toque y queda armado</span>
+      <h2>Packs listos</h2>
+      <p>El aseo resuelto sin pensar producto por producto. Toca un pack para ver qué incluye.</p>
+    </div>
+  </div>
+  <div class="packs" id="packs"></div>
 </section>
 
 <!-- ══════ CÓMO FUNCIONA ══════ -->
@@ -1082,6 +1098,22 @@ footer{background:var(--negro);color:#fff;padding:56px 0 30px;margin-top:60px;po
   </div>
 </aside>
 
+<!-- ══════ FICHA PACK (qué incluye) ══════ -->
+<aside class="ficha pkficha" id="packFicha" role="dialog" aria-modal="true" aria-labelledby="pkfNom">
+  <div class="ficha-in">
+    <button class="ficha-x" style="position:absolute;right:12px;top:12px" onclick="cierraPackFicha()" aria-label="Cerrar">×</button>
+    <span id="pkfE"></span>
+    <h2 id="pkfNom"></h2>
+    <p class="f-nota" id="pkfDesc"></p>
+    <p class="f-nota" style="font-weight:700;color:var(--negro);margin-top:2px">Incluye:</p>
+    <div class="pkf-items" id="pkfItems"></div>
+    <div class="f-acc">
+      <div class="pk-pr" style="flex:0 0 auto;margin-right:auto"><span class="v" id="pkfTotal"></span><span class="u" id="pkfCount"></span></div>
+      <button class="go wa" id="pkfBtn" style="flex:0 0 auto;padding:0 22px"></button>
+    </div>
+  </div>
+</aside>
+
 <!-- ══════ LIGHTBOX FOTO ══════ -->
 <div class="lightbox" id="lightbox" onclick="cerrarLightbox()">
   <button class="lightbox-x" onclick="event.stopPropagation();cerrarLightbox()" aria-label="Cerrar foto">×</button>
@@ -1093,7 +1125,10 @@ footer{background:var(--negro);color:#fff;padding:56px 0 30px;margin-top:60px;po
 <aside class="cart" id="cart" role="dialog" aria-modal="true" aria-label="Tu carro">
   <div class="cart-hd">
     <div><h2>Tu carro</h2><small id="cartSub">Sin productos todavía</small></div>
-    <button class="x" onclick="cerrar()" aria-label="Cerrar">×</button>
+    <div style="display:flex;align-items:center;gap:6px">
+      <button class="cart-vaciar" id="btnVaciar" onclick="vaciarCarro()" aria-label="Vaciar carro" title="Vaciar carro">Vaciar</button>
+      <button class="x" onclick="cerrar()" aria-label="Cerrar">×</button>
+    </div>
   </div>
   <div class="cart-bd" id="cartBd"></div>
   <div class="cart-ft">
@@ -1109,6 +1144,7 @@ footer{background:var(--negro);color:#fff;padding:56px 0 30px;margin-top:60px;po
 </aside>
 
 <script src="assets/catalogo.js"></script>
+<script src="assets/packs.js"></script>
 <script>
 /* ═══════════ AJUSTES DEL NEGOCIO — cambia solo esto ═══════════ */
 const WHATSAPP    = "56992513608";
@@ -1140,18 +1176,7 @@ const MAS_PEDIDOS = [
   "OMO ULTRA POWER 400 DOYPACK","ANTIGRASA","DETERGENTE","PASTILLA WC PATO"
 ];
 
-/* Packs: los nombres tienen que ser IDÉNTICOS a los del catálogo.
-   Si un producto sale del Excel, el pack se arma igual con el resto. */
-const PACKS = [
-  { e:"🏠", n:"Pack Casa Completa", d:"El mes completo: limpieza, papel, desinfección y cocina para toda la casa.",
-    items:["DETERGENTE FUZOL","DETERGENTE FUZOL 2x","CIF CREMA 750 TRADICIONAL","LAVALOZAS QUIX","LIMPIAPISOS","ANTIGRASA","LIMPIAVIDRIOS","DESENGRASANTE WINNEX","LUSTRAMUEBLES","SCOTT PAPEL HIGIENICO 2 PACK","TOALLAS HÚMEDAS","CIF VIDRIOS 450 DOYPACK","VANISH QUITAMANCHAS ROSA 300","OMO ULTRA POWER 400 DOYPACK","CONFORT 2x","TOALLA NOVA","TOALLA SWAN 70MTS","HIGIÉNICO NOBLE DH 22 M (6 ROLLOS)","PAPEL NOVA CLASICA","CLORO GEL IMPEKE","PASTILLA WC PATO","DESINFECTANTE IGENIX LAVANDA 360","GLADE FLORES TROPICALES 360","CLORINDA TRADICIONAL 1 L","ALUSA FILM 20 MTS","BOLSA BASURA ÓPTIMO 50x70 (10 UN)","ILKO PAPEL ALUMINIO 7.5 M","ESPONJA ABSORBENTE x3","PAÑO MICROFIBRA 2x"] },
-  { e:"🚿", n:"Pack Baño", d:"Shampoo, papel higiénico, cloro y desinfectante: el baño de toda la familia, resuelto.",
-    items:["CLORO GEL IMPEKE","PASTILLA WC PATO","CONFORT 2x","DESINFECTANTE IGENIX LAVANDA 360","DESINFECTANTE IGENIX TRADICIONAL 360","ESPONJA ACANALADA","JABON POPEYE","CLORINDA CLORO COLOR 930","SHAMPOO SEDAL","ACONDICIONADOR SEDAL","SHAMPOO PANTENE","ACONDICIONADOR PANTENE","DESODORANTE MUJER NIVEA","DESODORANTE HOMBRE NIVEA","TOALLA LADYSOFT DIA","TOALLA LADYSOFT NOCTURNA","TOALLITAS BABYSEC 45 C/TAPA","HIGIÉNICO NOBLE 23 M (6 ROLLOS)","PRESTOBARBA 3 HOJAS"] },
-  { e:"👕", n:"Pack Lavandería", d:"Detergente para el mes, cloro para ropa y quitamanchas: la pieza de lavado lista.",
-    items:["DETERGENTE FUZOL 2x","DETERGENTE FUZOL","DETERGENTE RINSO 500ML","OMO ULTRA POWER 400 DOYPACK","VANISH QUITAMANCHAS ROSA 300","CLOROX ROPA COLORES VIVOS 370","CLORO CONCENTRADO IMPEKE","CLORINDA CLORO COLOR 930","CLORINDA TRADICIONAL 1 L","BOLSA BASURA ÓPTIMO 50x70 (10 UN)"] },
-  { e:"🍳", n:"Pack Cocina", d:"Lavaloza, desengrasante, alusa y bolsas: todo lo que se acaba primero en la cocina.",
-    items:["LAVALOZAS QUIX","WYN ANTIGRASA","ALUSA FILM 20 MTS","ALUSA GRANDE","BOLSA BASURA ÓPTIMO 50x70 (10 UN)","ESPUMITA DE METAL DOM","TOALLA NOVA","ILKO PAPEL ALUMINIO 7.5 M","NECTAR SPRIM","CIF CREMA 750 TRADICIONAL","CIF CREMA 375 BIOACTIVE","CIF VIDRIOS 450 DOYPACK","WYN LIMPIAVIDRIOS","DESENGRASANTE WINNEX","ESPONJA SCRUP","ESPONJA PETS","SERVILLETA GIULIETTA CÓCTEL 300"] },
-];
+/* Packs: se cargan desde assets/packs.js (se editan desde el Panel de administración). */
 
 /* Lo que más se olvida. Se ofrece en el carro si no va en el pedido. */
 const INFALTABLES = ["BOLSA BASURA ÓPTIMO 50x70 (10 UN)","ESPONJA ABSORBENTE x3","CONFORT 2x","CLORO GEL IMPEKE","TOALLA NOVA"];
@@ -1208,7 +1233,7 @@ const marcaFoto = (id, hay) => {
 let carro  = JSON.parse(localStorage.getItem("lda_carro") || "{}");
 let favs   = new Set(JSON.parse(localStorage.getItem("lda_favs") || "[]"));
 let filtro = "Todo", busca = "", orden = "rec", tope = 7000;
-let soloFoto = false, soloFav = false, fichaId = null, pagina = 1;
+let soloFoto = false, soloFav = false, fichaId = null, packFichaId = null, pagina = 1;
 const POR_PAGINA = 9999; // catálogo completo siempre visible, sin "ver más"
 
 const suave = matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -1548,47 +1573,75 @@ addEventListener("resize", rielFlechas);
 
 /* ═════ PACKS ═════ */
 const PACKS_OK = PACKS.map(pk => {
-  const vivos = pk.items.filter(n => {
-    const hay = !!porNom(n);
-    if (!hay) console.warn(`Pack «${pk.n}»: «${n}» ya no está en el catálogo, se omite.`);
+  const vivos = pk.items.filter(it => {
+    const hay = !!porNom(it.n);
+    if (!hay) console.warn(`Pack «${pk.n}»: «${it.n}» ya no está en el catálogo, se omite.`);
     return hay;
   });
-  return { ...pk, id: slug(pk.n), items: vivos, total: vivos.reduce((s,n) => s + porNom(n).p, 0) };
+  const unidades = vivos.reduce((s,it) => s + it.q, 0);
+  return { ...pk, id: slug(pk.n), items: vivos, unidades, total: vivos.reduce((s,it) => s + porNom(it.n).p * it.q, 0) };
 }).filter(pk => pk.items.length > 1);
 
-const packCompleto = pk => pk.items.every(n => carro[slug(n)]);
+const packCompleto = pk => pk.items.every(it => (carro[slug(it.n)]?.q || 0) >= it.q);
 
 function pintaPacks(){
   $("packs").innerHTML = PACKS_OK.map((pk,i) => {
     const listo = packCompleto(pk);
-    const miniaturas = pk.items.slice(0, 4).map(n => {
-      const p = porNom(n), id = slug(n);
+    const miniaturas = pk.items.slice(0, 4).map(it => {
+      const p = porNom(it.n), id = slug(it.n);
       return `<span><img src="${foto(id)}" alt="" loading="lazy" onerror="this.parentNode.textContent='${emoji(p.c)}'"></span>`;
     }).join("") + (pk.items.length > 4 ? `<span class="mas">+${pk.items.length - 4}</span>` : "");
     return `
-    <article class="pk" data-i="${i}">
+    <article class="pk" data-i="${i}" onclick="abrePackFicha('${pk.id}')" style="cursor:pointer">
       <span class="e">${pk.e}</span>
       <h3>${pk.n}</h3>
       <p class="d">${pk.d}</p>
       <div class="mini-fotos">${miniaturas}</div>
       ${pk.total >= ENVIO_MIN ? `<span class="gratis">🫧 Con despacho gratis</span>` : ""}
-      <div class="pk-pr"><span class="v">${clp(pk.total)}</span><span class="u">${pk.items.length} productos</span></div>
-      <button class="pk-go${listo ? " listo" : ""}" onclick="agregaPack('${pk.id}',event)">
+      <div class="pk-pr"><span class="v">${clp(pk.total)}</span><span class="u">${pk.unidades} unidades</span></div>
+      <button class="pk-go${listo ? " listo" : ""}" onclick="event.stopPropagation();agregaPack('${pk.id}',event)">
         ${listo ? "✓ Ya está en tu carro" : "Agregar el pack"}
       </button>
     </article>`;
   }).join("");
   revela(".pk");
 }
+function abrePackFicha(id){
+  packFichaId = id;
+  pintaPackFicha();
+  $("packFicha").classList.add("on");
+  $("scrim").classList.add("on");
+  document.body.style.overflow = "hidden";
+}
+function cierraPackFicha(){
+  packFichaId = null;
+  $("packFicha").classList.remove("on");
+  if (!$("cart").classList.contains("on") && !$("ficha").classList.contains("on")){ $("scrim").classList.remove("on"); document.body.style.overflow = ""; }
+}
+function pintaPackFicha(){
+  const pk = PACKS_OK.find(p => p.id === packFichaId); if (!pk) return;
+  $("pkfE").textContent = pk.e;
+  $("pkfNom").textContent = pk.n;
+  $("pkfDesc").textContent = pk.d;
+  $("pkfItems").innerHTML = pk.items.map(it => {
+    const p = porNom(it.n);
+    return `<div class="pkf-row">${miniFoto({ n: p.n, c: p.c })}<b>${p.n}</b>${it.q > 1 ? `<span class="pkf-q">x${it.q}</span>` : ""}<span class="pp">${clp(p.p * it.q)}</span></div>`;
+  }).join("");
+  $("pkfTotal").textContent = clp(pk.total);
+  $("pkfCount").textContent = `${pk.unidades} unidades`;
+  const listo = packCompleto(pk);
+  $("pkfBtn").textContent = listo ? "✓ Ya está en tu carro" : "Agregar el pack";
+  $("pkfBtn").onclick = ev => { agregaPack(pk.id, ev); pintaPackFicha(); };
+}
 function agregaPack(id, ev){
   const pk = PACKS_OK.find(p => p.id === id); if (!pk) return;
-  pk.items.forEach(n => {
-    const p = porNom(n), s = slug(n);
-    carro[s] = { n: p.n, p: p.p, q: (carro[s]?.q || 0) + 1 };
+  pk.items.forEach(it => {
+    const p = porNom(it.n), s = slug(it.n);
+    carro[s] = { n: p.n, p: p.p, q: (carro[s]?.q || 0) + it.q };
   });
   guardar(); grilla(); pintaPacks(); pintaRiel(); pinta();
   if (ev) fiesta(ev.clientX, ev.clientY);
-  toast(`${pk.n} agregado · ${pk.items.length} productos`, pk.e);
+  toast(`${pk.n} agregado · ${pk.unidades} unidades`, pk.e);
   abrir();
 }
 
@@ -1733,6 +1786,14 @@ function menos(id){
   guardar(); grilla(); pintaPacks(); pintaRiel(); pinta();
   if (fichaId) pintaFicha();
 }
+function vaciarCarro(){
+  if (!Object.keys(carro).length) return;
+  if (!confirm("¿Vaciar el carro? Se eliminarán todos los productos.")) return;
+  carro = {};
+  guardar(); grilla(); pintaPacks(); pintaRiel(); pinta();
+  if (fichaId) pintaFicha();
+  toast("Carro vaciado", "🗑️");
+}
 function fav(id){
   const p = porId(id); if (!p) return;
   if (favs.has(id)){ favs.delete(id); toast(`Sacaste ${p.n} de favoritos`, "🤍"); }
@@ -1764,7 +1825,7 @@ function cierraFicha(){
   fichaId = null;
   $("ficha").classList.remove("on");
   cerrarLightbox();
-  if (!$("cart").classList.contains("on")){ $("scrim").classList.remove("on"); document.body.style.overflow = ""; }
+  if (!$("cart").classList.contains("on") && !$("packFicha").classList.contains("on")){ $("scrim").classList.remove("on"); document.body.style.overflow = ""; }
 }
 function zoom(){
   const img = $("fPh").querySelector("img");
@@ -1859,6 +1920,7 @@ function pinta(){
   $("fab").classList.toggle("on", nUn > 0);
   $("fabTot").textContent = clp(sub);
   $("btnWa").disabled = nUn === 0;
+  $("btnVaciar").disabled = nUn === 0;
   $("cartSub").textContent = nUn === 0
     ? "Sin productos todavía"
     : `${nUn} unidad${nUn === 1 ? "" : "es"} · ${items.length} producto${items.length === 1 ? "" : "s"}`;
@@ -2031,9 +2093,9 @@ $("faq").addEventListener("toggle", e => {
 const abrir = () => { $("cart").classList.add("on"); $("scrim").classList.add("on"); document.body.style.overflow = "hidden"; };
 const cerrar = () => {
   $("cart").classList.remove("on");
-  if (!$("ficha").classList.contains("on")){ $("scrim").classList.remove("on"); document.body.style.overflow = ""; }
+  if (!$("ficha").classList.contains("on") && !$("packFicha").classList.contains("on")){ $("scrim").classList.remove("on"); document.body.style.overflow = ""; }
 };
-const cerrarTodo = () => { cierraFicha(); cerrar(); };
+const cerrarTodo = () => { cierraFicha(); cierraPackFicha(); cerrar(); };
 addEventListener("keydown", e => {
   if (e.key === "Escape") cerrarTodo();
   if ((e.key === "/" || (e.key === "k" && (e.metaKey || e.ctrlKey))) && document.activeElement !== $("q")){
