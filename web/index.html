@@ -493,17 +493,23 @@ section{position:relative;z-index:3}
 .z-res.si{background:var(--ac-luz);color:var(--ac-txt)}
 .z-res.no{background:#FFF3E0;color:#8A5A00}
 .z-der{
-  position:relative;background:var(--negro);padding:36px;display:flex;flex-wrap:wrap;align-content:center;gap:9px;min-height:260px;overflow:hidden;
+  position:relative;background:var(--negro);padding:36px 0;display:flex;flex-direction:column;justify-content:center;gap:12px;min-height:260px;overflow:hidden;
 }
 .z-der::before{content:'';position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.10) 1px,transparent 1px);background-size:20px 20px}
 .z-der::after{content:'';position:absolute;left:50%;top:50%;width:420px;height:420px;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle,rgba(var(--ac-rgb),.30),transparent 66%)}
+.z-marquee{position:relative;z-index:2;overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent);mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent);}
+.z-marquee .z-track{display:flex;gap:9px;width:max-content;animation:zscroll 46s linear infinite;}
+.z-marquee.rev .z-track{animation-direction:reverse;animation-duration:58s;}
+.z-marquee:hover .z-track{animation-play-state:paused;}
+@keyframes zscroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 .z-der .cm{
-  position:relative;z-index:2;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.22);color:#fff;
+  flex:0 0 auto;position:relative;z-index:2;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.22);color:#fff;
   border-radius:999px;padding:9px 16px;font-family:'Bricolage Grotesque',sans-serif;font-size:14px;font-weight:700;
-  backdrop-filter:blur(6px);transition:.25s;
+  backdrop-filter:blur(6px);transition:.25s;cursor:pointer;white-space:nowrap;
 }
 .z-der .cm.hit{background:var(--ac);border-color:var(--ac);transform:scale(1.07)}
-.z-der .nota{position:relative;z-index:2;width:100%;margin-top:14px;color:#9C94A8;font-size:12.5px}
+.z-der .nota{position:relative;z-index:2;width:100%;padding:0 36px;margin-top:2px;color:#9C94A8;font-size:12.5px}
+@media (prefers-reduced-motion:reduce){.z-marquee .z-track{animation:none}}
 
 /* ── FAQ ── */
 .faq{display:grid;gap:9px;max-width:820px;margin:0 auto}
@@ -745,7 +751,8 @@ footer{background:var(--negro);color:#fff;padding:56px 0 30px;margin-top:60px;po
   .hero, section:has(.conf), section:has(#packs) { display: none !important; }
   .pasos{grid-template-columns:1fr}
   .zona{grid-template-columns:minmax(0,1fr)}
-  .z-izq,.z-der{padding:24px}
+  .z-izq{padding:24px}
+  .z-der{padding:24px 0}
   .grid{gap:10px;grid-template-columns:repeat(2,1fr)}
   .card{padding:7px;border-radius:16px}
   .nm{font-size:12.5px}
@@ -1973,8 +1980,14 @@ const opcionesComuna = (lista, extra) =>
 $("zComuna").innerHTML = opcionesComuna(TODAS_COMUNAS_RM, true);
 
 /* zona de reparto */
+const filaZ = (lista) => {
+  const pills = lista.map(c => `<span class="cm" data-c="${c}">${c}</span>`).join("");
+  return `<div class="z-track">${pills}${pills}</div>`;
+};
+const mitadZ = Math.ceil(TODAS_COMUNAS_RM.length / 2);
 $("zDer").innerHTML =
-  TODAS_COMUNAS_RM.map(c => `<span class="cm" data-c="${c}">${c}</span>`).join("") +
+  `<div class="z-marquee">${filaZ(TODAS_COMUNAS_RM.slice(0, mitadZ))}</div>` +
+  `<div class="z-marquee rev">${filaZ(TODAS_COMUNAS_RM.slice(mitadZ))}</div>` +
   `<span class="nota">¿Tu comuna no está en la lista? Escríbenos y lo coordinamos igual.</span>`;
 function revisaZona(){
   const c = $("zComuna").value;
@@ -1983,7 +1996,7 @@ function revisaZona(){
   if (!c){ r.className = "z-res"; return; }
   const e = estadoEntrega();
   if (COMUNAS.includes(c)){
-    document.querySelector(`.z-der .cm[data-c="${c}"]`)?.classList.add("hit");
+    document.querySelectorAll(`.z-der .cm[data-c="${c}"]`).forEach(x => x.classList.add("hit"));
     r.className = "z-res on si";
     r.innerHTML = `🫧 Sí llegamos a <b>${c}</b> · ${e.hoy ? "si pides ahora, te llega hoy" : "el reparto de hoy ya cerró: llega mañana temprano"}. Despacho gratis sobre ${clp(ENVIO_MIN)}, bajo ese monto son ${clp(ENVIO_COSTO)}.`;
   } else if (c === "otra"){
