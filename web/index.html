@@ -68,7 +68,7 @@
   --au1:#A9EFC9; --au2:#D8F3A8; --au3:#BDEBFF;
 }
 
-*{box-sizing:border-box;margin:0;padding:0}
+*{box-sizing:border-box;margin:0;padding:0;touch-action:manipulation}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;scroll-padding-top:calc(var(--hd) + var(--cats) + 12px);overflow-x:hidden;width:100%}
 body{
   font-family:'Instrument Sans',system-ui,sans-serif;
@@ -476,7 +476,7 @@ section{position:relative;z-index:3}
 
 /* ── zona de reparto ── */
 .zona{
-  display:grid;grid-template-columns:1fr 1fr;gap:0;border-radius:26px;overflow:hidden;
+  display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:0;border-radius:26px;overflow:hidden;
   border:1px solid var(--linea);box-shadow:var(--som);background:var(--panel);
 }
 .z-izq{padding:36px;display:flex;flex-direction:column;justify-content:center;gap:14px}
@@ -486,8 +486,8 @@ section{position:relative;z-index:3}
 .z-form select{flex:1;min-width:180px}
 .z-form button{height:40px;padding:0 20px;border-radius:11px;border:0;background:var(--negro);color:#fff;font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:14px}
 .z-form button:hover{background:linear-gradient(115deg,var(--ac-a),var(--ac-b))}
-.z-res{display:none;align-items:center;gap:10px;padding:13px 15px;border-radius:13px;font-size:13.5px;font-weight:600;line-height:1.4}
-.z-res.on{display:flex}
+.z-res{display:none;padding:13px 15px;border-radius:13px;font-size:13.5px;font-weight:600;line-height:1.4}
+.z-res.on{display:block}
 .z-res.si{background:var(--ac-luz);color:var(--ac-txt)}
 .z-res.no{background:#FFF3E0;color:#8A5A00}
 .z-der{
@@ -713,7 +713,7 @@ footer{background:var(--negro);color:#fff;padding:56px 0 30px;margin-top:60px;po
   .h-izq{min-height:auto;padding:30px 26px}
   .h-der{min-height:330px}
   .pasos{grid-template-columns:1fr}
-  .zona{grid-template-columns:1fr}
+  .zona{grid-template-columns:minmax(0,1fr)}
   .ficha{grid-template-columns:minmax(0,1fr);max-height:92vh;width:calc(100% - 20px)}
   .ficha-ph{min-height:0;aspect-ratio:1.2}
   .ficha-in{padding:22px}
@@ -742,7 +742,7 @@ footer{background:var(--negro);color:#fff;padding:56px 0 30px;margin-top:60px;po
   .burbujas, .aurora { display: none !important; }
   .hero, section:has(.conf), section:has(#packs) { display: none !important; }
   .pasos{grid-template-columns:1fr}
-  .zona{grid-template-columns:1fr}
+  .zona{grid-template-columns:minmax(0,1fr)}
   .z-izq,.z-der{padding:24px}
   .grid{gap:10px;grid-template-columns:repeat(2,1fr)}
   .card{padding:7px;border-radius:16px}
@@ -1084,12 +1084,7 @@ footer{background:var(--negro);color:#fff;padding:56px 0 30px;margin-top:60px;po
   <div class="cart-bd" id="cartBd"></div>
   <div class="cart-ft">
     <div class="entrega"><span class="dot"></span><span id="entregaTxt"></span></div>
-    <label class="lbl" for="comuna">Comuna de despacho</label>
-    <select class="sel" id="comuna" onchange="pinta()"></select>
-    <label class="lbl">Cómo vas a pagar</label>
-    <div class="pagos" id="pagos"></div>
     <div class="tot"><span>Productos</span><span id="sub">$0</span></div>
-    <div class="tot"><span>Despacho</span><span id="env">—</span></div>
     <div class="tot big"><span>Total</span><span id="tot">$0</span></div>
     <button class="go wa" id="btnWa" onclick="pedirWA()">
       <svg viewBox="0 0 24 24" fill="currentColor" width="19" height="19" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.174.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0 0 20.465 3.49"/></svg>
@@ -1107,12 +1102,22 @@ const ENVIO_MIN   = 30000;
 const ENVIO_COSTO = 2500;
 const COMUNAS     = ["Peñalolén","Macul","La Reina"];
 
+/* Todas las comunas de la Región Metropolitana — solo para el buscador
+   "¿Llegamos a tu comuna?". No cambia dónde repartimos: eso lo decide COMUNAS. */
+const TODAS_COMUNAS_RM = [
+  "Alhué","Buin","Calera de Tango","Cerrillos","Cerro Navia","Colina","Conchalí","Curacaví",
+  "El Bosque","El Monte","Estación Central","Huechuraba","Independencia","Isla de Maipo",
+  "La Cisterna","La Florida","La Granja","La Pintana","La Reina","Lampa","Las Condes",
+  "Lo Barnechea","Lo Espejo","Lo Prado","Macul","Maipú","María Pinto","Melipilla","Ñuñoa",
+  "Padre Hurtado","Paine","Pedro Aguirre Cerda","Peñaflor","Peñalolén","Pirque","Providencia",
+  "Pudahuel","Puente Alto","Quilicura","Quinta Normal","Recoleta","Renca","San Bernardo",
+  "San José de Maipo","San Joaquín","San Miguel","San Pedro","San Ramón","Santiago","Talagante",
+  "Til Til","Vitacura"
+];
+
 /* Reparto: 0=domingo … 6=sábado */
 const CORTE_HORA   = 18;
 const DIAS_REPARTO = [1,2,3,4,5,6];
-
-/* Formas de pago que se ofrecen en el carro (van en el mensaje de WhatsApp) */
-const PAGOS = ["Efectivo","Transferencia"];
 
 /* Los que más salen: llevan la etiqueta "Más pedido" y arman el riel de arriba. */
 const MAS_PEDIDOS = [
@@ -1147,7 +1152,7 @@ const VITRINA = [
 const FAQ = [
   { q:"¿Cuánto se demora en llegar?", r:"Si pides antes de las 18:00 de lunes a sábado, te llega el mismo día. Después de esa hora, a primera hora del día siguiente. Te confirmamos por WhatsApp apenas recibimos el pedido." },
   { q:"¿Cuánto cuesta el despacho?", r:"Sobre $30.000 es gratis en Peñalolén, Macul y La Reina. Bajo ese monto son $2.500. Para otras comunas despachamos vía Courier (BlueExpress, Starken o Correos). Costos referenciales: Provincia de Santiago desde $2.990, Periferia Urbana desde $3.150, Rural/Lejana desde $4.000." },
-  { q:"¿Cómo pago?", r:"Al recibir, en efectivo o por transferencia. Elige la forma en el carro y queda anotada en el pedido. El pago con tarjeta en la web viene más adelante." },
+  { q:"¿Cómo pago?", r:"Al recibir, en efectivo o por transferencia. Nos confirmas la forma de pago por WhatsApp al cerrar tu pedido. El pago con tarjeta en la web viene más adelante." },
   { q:"¿Necesito crear una cuenta?", r:"No. Armas el carro, tocas enviar y el pedido se escribe solo en tu WhatsApp. Nada de registros ni contraseñas." },
   { q:"¿Puedo pedir algo que no está en el catálogo?", r:"Sí. Escríbenos por WhatsApp y te decimos si lo conseguimos y a qué precio." },
   { q:"¿Los precios incluyen todo?", r:"Sí, el precio que ves es el que pagas por unidad. El único agregado posible es el despacho, y solo si tu pedido no llega a $30.000 (o si usas Courier)." },
@@ -1188,7 +1193,6 @@ const marcaFoto = (id, hay) => {
 
 let carro  = JSON.parse(localStorage.getItem("lda_carro") || "{}");
 let favs   = new Set(JSON.parse(localStorage.getItem("lda_favs") || "[]"));
-let pago   = localStorage.getItem("lda_pago") || PAGOS[0];
 let filtro = "Todo", busca = "", orden = "rec", tope = 7000;
 let soloFoto = false, soloFav = false, fichaId = null, pagina = 1;
 const POR_PAGINA = 24;
@@ -1833,14 +1837,11 @@ function pinta(){
   const items = Object.entries(carro);
   const nUn   = items.reduce((s,[,i]) => s + i.q, 0);
   const sub   = items.reduce((s,[,i]) => s + i.p * i.q, 0);
-  const com   = $("comuna").value;
   const gratis= sub >= ENVIO_MIN;
-  const envio = (!com || com === "otra") ? 0 : (gratis ? 0 : ENVIO_COSTO);
 
   $("nCarro").textContent = nUn;
   $("sub").textContent    = clp(sub);
-  $("tot").textContent    = clp(sub + envio);
-  $("env").textContent    = !com ? "Elige comuna" : com === "otra" ? "A coordinar" : gratis ? "Gratis" : clp(ENVIO_COSTO);
+  $("tot").textContent    = clp(sub);
   $("fab").classList.toggle("on", nUn > 0);
   $("fabTot").textContent = clp(sub);
   $("btnWa").disabled = nUn === 0;
@@ -1958,21 +1959,11 @@ function repetir(){
 }
 
 /* ═════ COMUNAS Y PAGO ═════ */
-const opcionesComuna = extra =>
+const opcionesComuna = (lista, extra) =>
   `<option value="">Elige tu comuna…</option>` +
-  COMUNAS.map(c => `<option value="${c}">${c}</option>`).join("") +
+  lista.map(c => `<option value="${c}">${c}</option>`).join("") +
   (extra ? `<option value="otra">Otra comuna — coordinamos</option>` : "");
-$("comuna").innerHTML  = opcionesComuna(true);
-$("zComuna").innerHTML = opcionesComuna(true);
-
-$("pagos").innerHTML = PAGOS.map(p =>
-  `<button class="pg${p === pago ? " on" : ""}" data-p="${p}">${p}</button>`).join("");
-$("pagos").onclick = e => {
-  const b = e.target.closest(".pg"); if (!b) return;
-  pago = b.dataset.p;
-  localStorage.setItem("lda_pago", pago);
-  document.querySelectorAll(".pg").forEach(x => x.classList.toggle("on", x === b));
-};
+$("zComuna").innerHTML = opcionesComuna(TODAS_COMUNAS_RM, true);
 
 /* zona de reparto */
 $("zDer").innerHTML =
@@ -1984,13 +1975,14 @@ function revisaZona(){
   document.querySelectorAll(".z-der .cm").forEach(x => x.classList.remove("hit"));
   if (!c){ r.className = "z-res"; return; }
   const e = estadoEntrega();
-  if (c === "otra"){
-    r.className = "z-res on no";
-    r.innerHTML = `📍 Enviamos a tu comuna vía Courier por pagar (BlueExpress/Starken). Cotizaremos al momento de enviar tu pedido.`;
-  } else {
+  if (COMUNAS.includes(c)){
     document.querySelector(`.z-der .cm[data-c="${c}"]`)?.classList.add("hit");
     r.className = "z-res on si";
     r.innerHTML = `🫧 Sí llegamos a <b>${c}</b> · ${e.hoy ? "si pides ahora, te llega hoy" : "el reparto de hoy ya cerró: llega mañana temprano"}. Despacho gratis sobre ${clp(ENVIO_MIN)}.`;
+  } else {
+    r.className = "z-res on no";
+    const nombre = c === "otra" ? "tu comuna" : `<b>${c}</b>`;
+    r.innerHTML = `📍 Por ahora no repartimos en ${nombre}, pero te lo enviamos vía Courier por pagar (BlueExpress/Starken). Cotizaremos al momento de enviar tu pedido.`;
   }
 }
 $("zComuna").onchange = revisaZona;
@@ -2031,21 +2023,16 @@ addEventListener("keydown", e => {
 function pedirWA(){
   const items = Object.entries(carro);
   if (!items.length) return;
-  const com    = $("comuna").value;
-  const sub    = items.reduce((s,[,i]) => s + i.p * i.q, 0);
-  const gratis = sub >= ENVIO_MIN;
-  const envio  = (!com || com === "otra") ? 0 : (gratis ? 0 : ENVIO_COSTO);
-  const e      = estadoEntrega();
+  const sub = items.reduce((s,[,i]) => s + i.p * i.q, 0);
+  const e   = estadoEntrega();
 
   const txt = [
     "Hola Las Locas del Aseo, quiero pedir:", "",
     ...items.map(([,i]) => `• ${i.q} × ${i.n} — ${clp(i.p * i.q)}`), "",
-    `Productos: ${clp(sub)}`,
-    `Comuna: ${com === "otra" ? "Otra (coordinar)" : com || "por confirmar"}`,
-    `Despacho: ${!com || com === "otra" ? "a coordinar" : gratis ? "Gratis" : clp(ENVIO_COSTO)}`,
-    `TOTAL: ${clp(sub + envio)}`, "",
-    `Pago: ${pago}`,
-    `Entrega: ${e.hoy ? "hoy" : "mañana"}`,
+    `Total productos: ${clp(sub)}`,
+    `Entrega: ${e.hoy ? "hoy" : "mañana"}`, "",
+    "Mi comuna es: ",
+    "Cómo pago (efectivo / transferencia): ",
     "Mi dirección es: "
   ].join("\n");
 
