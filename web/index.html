@@ -396,7 +396,6 @@ section{position:relative;z-index:3}
 .stp button{width:32px;height:36px;border:0;background:transparent;font-size:17px;border-radius:9px;line-height:1;transition:.15s}
 .stp button:hover{background:var(--ac-luz);color:var(--ac-txt)}
 .stp .q{min-width:22px;text-align:center;font-family:'Bricolage Grotesque',sans-serif;font-size:14px;font-weight:800}
-.of-nota{font-size:11px;font-weight:700;color:var(--ac-txt);padding:0 5px}
 
 /* ── toolbar catálogo ── */
 .tools{
@@ -734,6 +733,21 @@ footer{background:var(--negro);color:#fff;padding:56px 0 30px;margin-top:60px;po
 .arriba.on{opacity:1;pointer-events:auto;transform:none}
 .arriba:hover{background:linear-gradient(115deg,var(--ac-a),var(--ac-b))}
 @media(max-width:760px){.arriba{bottom:calc(84px + env(safe-area-inset-bottom))}}
+
+/* ── carro flotante de escritorio: siempre visible al hacer scroll ── */
+.fabD{
+  position:fixed;right:78px;bottom:20px;z-index:80;display:none;align-items:center;gap:10px;
+  height:52px;padding:0 20px 0 16px;border-radius:999px;border:0;cursor:pointer;
+  background:var(--negro);color:#fff;box-shadow:var(--som-alta);
+  font-family:'Bricolage Grotesque',sans-serif;font-weight:700;transition:.2s;
+  opacity:0;pointer-events:none;transform:translateY(12px);
+}
+.fabD.on{display:flex;opacity:1;pointer-events:auto;transform:none}
+.fabD:hover{box-shadow:0 10px 26px -8px rgba(var(--ac-rgb),.9);transform:translateY(-2px)}
+.fabD svg{flex:0 0 auto}
+.fabD #fabDn{background:var(--ac);color:#fff;min-width:24px;height:24px;border-radius:999px;display:grid;place-items:center;font-size:12px;font-weight:800;padding:0 6px}
+.fabD b{font-size:15px;letter-spacing:-.02em}
+@media(max-width:760px){.fabD{display:none!important}}
 
 /* reveal genérico */
 .rv{opacity:0;transform:translateY(24px);transition:opacity .7s cubic-bezier(.2,.7,.3,1),transform .7s cubic-bezier(.2,.7,.3,1)}
@@ -1089,6 +1103,11 @@ footer{background:var(--negro);color:#fff;padding:56px 0 30px;margin-top:60px;po
   <div class="s"><span>Tu carro</span><b id="fabTot">$0</b></div>
   <button onclick="abrir()">Ver carro</button>
 </div>
+<button class="fabD" id="fabD" onclick="abrir()" aria-label="Abrir el carro">
+  <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="9" cy="21" r="1.4"/><circle cx="19" cy="21" r="1.4"/><path d="M1 1h3l2.6 13.2a2 2 0 0 0 2 1.8h9.8a2 2 0 0 0 2-1.6L22 6H6"/></svg>
+  <span id="fabDn">0</span>
+  <b id="fabDTot">$0</b>
+</button>
 <button class="arriba" id="arriba" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Volver arriba">
   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
 </button>
@@ -1546,10 +1565,6 @@ function tarjeta(p, i){
           ? `<button class="add" onclick="mas('${id}',event)" aria-label="Agregar ${p.n}">+</button>`
           : `<div class="stp"><button onclick="menos('${id}')" aria-label="Quitar uno">−</button><span class="q">${q}</span><button onclick="mas('${id}',event)" aria-label="Agregar uno">+</button></div>`}
       </div>
-      ${p.of && q >= p.of.q
-        ? `<div class="of-nota">¡Ahorras ${clp(p.p * q - precioQ(p, q))} llevando ${q}!</div>`
-        : ""}
-      </div>
     </div>
   </article>`;
 }
@@ -1947,6 +1962,9 @@ function pinta(){
   $("tot").textContent    = clp(sub);
   $("fab").classList.toggle("on", nUn > 0);
   $("fabTot").textContent = clp(sub);
+  $("fabD").classList.toggle("on", nUn > 0);
+  $("fabDn").textContent = nUn;
+  $("fabDTot").textContent = clp(sub);
   $("btnWa").disabled = nUn === 0;
   $("btnVaciar").disabled = nUn === 0;
   $("cartSub").textContent = nUn === 0
