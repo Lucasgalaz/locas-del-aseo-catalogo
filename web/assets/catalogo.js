@@ -1,11 +1,13 @@
 // Generado desde PEDIDOS-Productos.xlsx. Solo nombre, precio y categoría. Sin costos, sin stock.
-// "of" (oferta) es opcional: {q, p} = llevando q unidades, el total baja al precio p. Se edita a mano, no desde el Excel.
 const CATALOGO = [
  {
   "n": "GLADE SPRAY LAVANDA 240ML",
   "p": 1700,
   "c": "Limpieza",
-  "of": { "q": 2, "p": 3000 }
+  "of": {
+   "q": 2,
+   "p": 3000
+  }
  },
  {
   "n": "SCOTT PAPEL HIGIENICO 2 PACK",
@@ -21,7 +23,10 @@ const CATALOGO = [
   "n": "DETERGENTE FUZOL",
   "p": 4000,
   "c": "Limpieza",
-  "of": { "q": 2, "p": 7000 }
+  "of": {
+   "q": 2,
+   "p": 7000
+  }
  },
  {
   "n": "TRAPERO HÚMEDO",
@@ -32,7 +37,10 @@ const CATALOGO = [
   "n": "CONFORT",
   "p": 2000,
   "c": "Papel",
-  "of": { "q": 2, "p": 3000 }
+  "of": {
+   "q": 2,
+   "p": 3000
+  }
  },
  {
   "n": "LIMPIAPISOS",

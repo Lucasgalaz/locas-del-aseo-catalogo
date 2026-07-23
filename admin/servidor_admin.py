@@ -192,7 +192,14 @@ class Handler(BaseHTTPRequestHandler):
                 except (TypeError, ValueError):
                     precio = 0
                 categoria = str(p.get("c", "")).strip() or "Limpieza"
-                limpios.append({"n": nombre, "p": precio, "c": categoria})
+                producto = {"n": nombre, "p": precio, "c": categoria}
+                of = p.get("of")
+                if isinstance(of, dict) and of.get("q") and of.get("p") is not None:
+                    try:
+                        producto["of"] = {"q": int(round(float(of["q"]))), "p": int(round(float(of["p"])))}
+                    except (TypeError, ValueError):
+                        pass
+                limpios.append(producto)
             try:
                 escribir_catalogo(limpios)
                 subir_version()
