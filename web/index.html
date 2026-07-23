@@ -372,6 +372,7 @@ section{position:relative;z-index:3}
 }
 .tg.hot{background:var(--negro);color:#fff;border-color:var(--negro)}
 .tg.bar{background:var(--ac);color:#fff;border-color:var(--ac)}
+.tg.of{background:var(--au3);color:#6b4e00;border-color:var(--au3)}
 .cor{
   position:absolute;right:8px;top:8px;z-index:2;width:32px;height:32px;border-radius:999px;border:1px solid var(--linea);
   background:rgba(255,255,255,.92);display:grid;place-items:center;transition:.2s;backdrop-filter:blur(6px);
@@ -395,6 +396,7 @@ section{position:relative;z-index:3}
 .stp button{width:32px;height:36px;border:0;background:transparent;font-size:17px;border-radius:9px;line-height:1;transition:.15s}
 .stp button:hover{background:var(--ac-luz);color:var(--ac-txt)}
 .stp .q{min-width:22px;text-align:center;font-family:'Bricolage Grotesque',sans-serif;font-size:14px;font-weight:800}
+.of-nota{font-size:11px;font-weight:700;color:var(--ac-txt);padding:0 5px}
 
 /* ── toolbar catálogo ── */
 .tools{
@@ -1183,7 +1185,7 @@ const DIAS_REPARTO = [1,2,3,4,5,6];
 
 /* Los que más salen: llevan la etiqueta "Más pedido" y arman el riel de arriba. */
 const MAS_PEDIDOS = [
-  "DETERGENTE 2x","CONFORT 2x","CLORO GEL IMPEKE","LAVALOZAS QUIX","TOALLA NOVA",
+  "DETERGENTE 2x","CONFORT","CLORO GEL IMPEKE","LAVALOZAS QUIX","TOALLA NOVA",
   "BOLSA BASURA ÓPTIMO 50x70 (10 UN)","LIMPIAPISOS","ESPONJA ABSORBENTE x3",
   "OMO ULTRA POWER 400 DOYPACK","ANTIGRASA","DETERGENTE","PASTILLA WC PATO"
 ];
@@ -1191,12 +1193,12 @@ const MAS_PEDIDOS = [
 /* Packs: se cargan desde assets/packs.js (se editan desde el Panel de administración). */
 
 /* Lo que más se olvida. Se ofrece en el carro si no va en el pedido. */
-const INFALTABLES = ["BOLSA BASURA ÓPTIMO 50x70 (10 UN)","ESPONJA ABSORBENTE x3","CONFORT 2x","CLORO GEL IMPEKE","TOALLA NOVA"];
+const INFALTABLES = ["BOLSA BASURA ÓPTIMO 50x70 (10 UN)","ESPONJA ABSORBENTE x3","CONFORT","CLORO GEL IMPEKE","TOALLA NOVA"];
 
 /* Vitrina del hero. La foto se saca del producto que se nombra. */
 const VITRINA = [
   { tag:"Despacho gratis", h:"Sobre $30.000 no pagas despacho", p:"Ya andamos por tu sector, así que no te lo cobramos.", prod:"DETERGENTE 2x", cta:"Ver limpieza", cat:"Limpieza" },
-  { tag:"Llega hoy",       h:"Pides antes de las 18:00 y llega hoy", p:"Lunes a sábado. Después de esa hora, mañana temprano.", prod:"CONFORT 2x", cta:"Ver papel", cat:"Papel" },
+  { tag:"Llega hoy",       h:"Pides antes de las 18:00 y llega hoy", p:"Lunes a sábado. Después de esa hora, mañana temprano.", prod:"CONFORT", cta:"Ver papel", cat:"Papel" },
   { tag:"Pack del mes",    h:"El aseo completo en un toque", p:"Once productos, armado y con despacho gratis.", prod:"CIF CREMA 750 TRADICIONAL", cta:"Ver los packs", pack:true },
 ];
 
@@ -1228,6 +1230,10 @@ const slug = s => s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,""
 const norm = s => s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
 const porId  = id => CATALOGO.find(p => slug(p.n) === id);
 const porNom = n  => CATALOGO.find(p => p.n === n);
+/* precio de q unidades de p, respetando la oferta "2x" (p.of = {q, p}) si la hay */
+const precioQ = (p, q) => (p?.of && q >= p.of.q)
+  ? Math.floor(q / p.of.q) * p.of.p + (q % p.of.q) * p.p
+  : (p?.p || 0) * q;
 const foto   = id => `assets/productos/${id}.jpg`;
 const luz    = c  => (COLOR[c] || [,"rgba(var(--ac-rgb),.30)"])[1];
 const emoji  = c  => ICONOS[c] || "🧴";
@@ -1521,6 +1527,7 @@ function tarjeta(p, i){
       <div class="tags">
         ${hot ? `<span class="tg hot">🔥 Más pedido</span>` : ""}
         ${barato && !hot ? `<span class="tg bar">Bajo $1.000</span>` : ""}
+        ${p.of ? `<span class="tg of">🏷️ ${p.of.q}x ${clp(p.of.p)}</span>` : ""}
         <span class="tg" style="--tgc:${(COLOR[p.c]||["#5A5265"])[0]}">${p.c}</span>
       </div>
       <div class="fb"><span>${emoji(p.c)}</span></div>
@@ -1538,6 +1545,10 @@ function tarjeta(p, i){
         ${q === 0
           ? `<button class="add" onclick="mas('${id}',event)" aria-label="Agregar ${p.n}">+</button>`
           : `<div class="stp"><button onclick="menos('${id}')" aria-label="Quitar uno">−</button><span class="q">${q}</span><button onclick="mas('${id}',event)" aria-label="Agregar uno">+</button></div>`}
+      </div>
+      ${p.of && q >= p.of.q
+        ? `<div class="of-nota">¡Ahorras ${clp(p.p * q - precioQ(p, q))} llevando ${q}!</div>`
+        : ""}
       </div>
     </div>
   </article>`;
@@ -1591,7 +1602,7 @@ const PACKS_OK = PACKS.map(pk => {
     return hay;
   });
   const unidades = vivos.reduce((s,it) => s + it.q, 0);
-  return { ...pk, id: slug(pk.n), items: vivos, unidades, total: vivos.reduce((s,it) => s + porNom(it.n).p * it.q, 0) };
+  return { ...pk, id: slug(pk.n), items: vivos, unidades, total: vivos.reduce((s,it) => s + precioQ(porNom(it.n), it.q), 0) };
 }).filter(pk => pk.items.length > 1);
 
 const packCompleto = pk => pk.items.every(it => (carro[slug(it.n)]?.q || 0) >= it.q);
@@ -1641,7 +1652,7 @@ function pintaPackFicha(){
   $("pkfDesc").textContent = pk.d;
   $("pkfItems").innerHTML = pk.items.map(it => {
     const p = porNom(it.n);
-    return `<div class="pkf-row">${miniFoto({ n: p.n, c: p.c })}<b>${p.n}</b>${it.q > 1 ? `<span class="pkf-q">x${it.q}</span>` : ""}<span class="pp">${clp(p.p * it.q)}</span></div>`;
+    return `<div class="pkf-row">${miniFoto({ n: p.n, c: p.c })}<b>${p.n}</b>${it.q > 1 ? `<span class="pkf-q">x${it.q}</span>` : ""}<span class="pp">${clp(precioQ(p, it.q))}</span></div>`;
   }).join("");
   $("pkfTotal").textContent = clp(pk.total);
   $("pkfCount").textContent = `${pk.unidades} unidades`;
@@ -1884,9 +1895,10 @@ function pintaFicha(){
   $("fCat").style.background = tf;
   $("fNom").textContent = p.n;
   $("fPr").textContent  = clp(p.p);
+  const ofTxt = p.of ? `Oferta: ${p.of.q} x ${clp(p.of.p)}. ` : "";
   $("fNota").textContent = q > 0
-    ? `Llevas ${q} en el carro · ${clp(p.p * q)}`
-    : "Precio por unidad. Si necesitas más de uno, súmalo aquí mismo.";
+    ? `${ofTxt}Llevas ${q} en el carro · ${clp(precioQ(p, q))}`
+    : `${ofTxt}${ofTxt ? "" : "Precio por unidad. "}Si necesitas más de uno, súmalo aquí mismo.`;
 
   const esFav = favs.has(fichaId);
   $("fAcc").innerHTML = `
@@ -1927,7 +1939,7 @@ function miniFoto(p){
 function pinta(){
   const items = Object.entries(carro);
   const nUn   = items.reduce((s,[,i]) => s + i.q, 0);
-  const sub   = items.reduce((s,[,i]) => s + i.p * i.q, 0);
+  const sub   = items.reduce((s,[id,i]) => s + precioQ(porId(id) || { p: i.p }, i.q), 0);
   const gratis= sub >= ENVIO_MIN;
 
   $("nCarro").textContent = nUn;
@@ -1957,13 +1969,13 @@ function pinta(){
     </div>`;
 
   html += items.map(([id,i]) => {
-    const p = porId(id) || { c: "Limpieza", n: i.n };
+    const p = porId(id) || { c: "Limpieza", n: i.n, p: i.p };
     return `
     <div class="ci">
       ${miniFoto({ n: i.n, c: p.c })}
-      <div class="t"><b>${i.n}</b><small>${clp(i.p)} c/u</small></div>
+      <div class="t"><b>${i.n}</b><small>${clp(i.p)} c/u${p.of ? ` · oferta ${p.of.q}x ${clp(p.of.p)}` : ""}</small></div>
       <div class="qt"><button onclick="menos('${id}')" aria-label="Quitar uno">−</button><span class="q">${i.q}</span><button onclick="mas('${id}')" aria-label="Agregar uno">+</button></div>
-      <span class="pp">${clp(i.p * i.q)}</span>
+      <span class="pp">${clp(precioQ(p, i.q))}</span>
     </div>`;
   }).join("");
 
@@ -2008,7 +2020,7 @@ function bloqueRepetir(){
   if (!u || !Object.keys(u.items || {}).length) return "";
   const vivos = Object.keys(u.items).filter(id => porId(id));
   if (!vivos.length) return "";
-  const tot = vivos.reduce((s,id) => s + porId(id).p * u.items[id].q, 0);
+  const tot = vivos.reduce((s,id) => s + precioQ(porId(id), u.items[id].q), 0);
   return `
     <div class="sug" style="border-top:0;margin-top:0">
       <div class="sug-h">Tu pedido anterior · ${haceCuanto(u.ts)}</div>
@@ -2026,7 +2038,7 @@ function pintaOtraVez(){
   }
   const vivos = Object.keys(u.items || {}).filter(id => porId(id));
   if (!vivos.length){ caja.classList.remove("on"); return; }
-  const tot = vivos.reduce((s,id) => s + porId(id).p * u.items[id].q, 0);
+  const tot = vivos.reduce((s,id) => s + precioQ(porId(id), u.items[id].q), 0);
   $("ovTit").textContent = `Pediste ${haceCuanto(u.ts)}`;
   $("ovDet").textContent = `${vivos.length} producto${vivos.length === 1 ? "" : "s"} · ${clp(tot)} a los precios de hoy`;
   caja.classList.add("on");
@@ -2123,12 +2135,12 @@ addEventListener("keydown", e => {
 function pedirWA(){
   const items = Object.entries(carro);
   if (!items.length) return;
-  const sub = items.reduce((s,[,i]) => s + i.p * i.q, 0);
+  const sub = items.reduce((s,[id,i]) => s + precioQ(porId(id) || { p: i.p }, i.q), 0);
   const e   = estadoEntrega();
 
   const txt = [
     "Hola Las Locas del Aseo, quiero pedir:", "",
-    ...items.map(([,i]) => `• ${i.q} × ${i.n} — ${clp(i.p * i.q)}`), "",
+    ...items.map(([id,i]) => `• ${i.q} × ${i.n} — ${clp(precioQ(porId(id) || { p: i.p }, i.q))}`), "",
     `Total productos: ${clp(sub)}`,
     `Entrega: ${e.hoy ? "hoy" : "mañana"}`, "",
     "Mi comuna es: ",

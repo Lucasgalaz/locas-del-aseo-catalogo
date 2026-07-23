@@ -7,8 +7,8 @@ const PACKS = [
   "d": "El mes completo: limpieza, papel, desinfección y cocina para toda la casa.",
   "items": [
    {
-    "n": "DETERGENTE FUZOL 2x",
-    "q": 1
+    "n": "DETERGENTE FUZOL",
+    "q": 2
    },
    {
     "n": "CIF CREMA 750 TRADICIONAL",
@@ -99,8 +99,8 @@ const PACKS = [
     "q": 1
    },
    {
-    "n": "GLADE SPRAY LAVANDA 240ML X2",
-    "q": 1
+    "n": "GLADE SPRAY LAVANDA 240ML",
+    "q": 2
    },
    {
     "n": "TOALLA NOVA",
@@ -182,8 +182,8 @@ const PACKS = [
     "q": 1
    },
    {
-    "n": "GLADE SPRAY LAVANDA 240ML X2",
-    "q": 1
+    "n": "GLADE SPRAY LAVANDA 240ML",
+    "q": 2
    },
    {
     "n": "SCOTT PAPEL HIGIENICO 2 PACK",
@@ -197,8 +197,8 @@ const PACKS = [
   "d": "Detergente para el mes, cloro para ropa y quitamanchas: la pieza de lavado lista.",
   "items": [
    {
-    "n": "DETERGENTE FUZOL 2x",
-    "q": 1
+    "n": "DETERGENTE FUZOL",
+    "q": 2
    },
    {
     "n": "DETERGENTE RINSO 500ML",
@@ -292,8 +292,8 @@ const PACKS = [
     "q": 1
    },
    {
-    "n": "GLADE SPRAY LAVANDA 240ML X2",
-    "q": 1
+    "n": "GLADE SPRAY LAVANDA 240ML",
+    "q": 2
    },
    {
     "n": "ANTIGRASA",

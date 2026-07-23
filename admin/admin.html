@@ -192,7 +192,11 @@ async function cargarPacks() {
 function totalPack(pk) {
   return pk.items.reduce((s, it) => {
     const p = filas.find(x => x.n === it.n);
-    return s + (p ? p.p * it.q : 0);
+    if (!p) return s;
+    const precio = (p.of && it.q >= p.of.q)
+      ? Math.floor(it.q / p.of.q) * p.of.p + (it.q % p.of.q) * p.p
+      : p.p * it.q;
+    return s + precio;
   }, 0);
 }
 
