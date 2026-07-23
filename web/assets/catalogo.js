@@ -43,7 +43,7 @@ const CATALOGO = [
   }
  },
  {
-  "n": "LIMPIAPISOS",
+  "n": "LIMPIAPISOS EXCELL BAMBÚ",
   "p": 1000,
   "c": "Limpieza"
  },
@@ -73,7 +73,7 @@ const CATALOGO = [
   "c": "Limpieza"
  },
  {
-  "n": "PAÑO MICROFIBRA 2x",
+  "n": "PAÑO MICROFIBRA 2x 40X40",
   "p": 1000,
   "c": "Accesorios"
  },

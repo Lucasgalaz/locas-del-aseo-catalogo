@@ -9,7 +9,7 @@
    Al subir cambios importantes, sube el número de VERSION: eso borra la caché
    vieja de todos los celulares que ya tienen la web instalada. */
 
-const VERSION = "v61";
+const VERSION = "v76";
 const CACHE   = `lda-${VERSION}`;
 
 const ESENCIALES = [
