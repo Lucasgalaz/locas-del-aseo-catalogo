@@ -371,7 +371,7 @@ section{position:relative;z-index:3}
   background:#fff;border:1px solid var(--linea);color:var(--tgc,var(--gris));
 }
 .tg.hot{background:var(--negro);color:#fff;border-color:var(--negro)}
-.tg.bar{background:var(--ac);color:#fff;border-color:var(--ac)}
+.tg.barato{background:var(--ac);color:#fff;border-color:var(--ac)}
 .tg.of{background:var(--au3);color:#6b4e00;border-color:var(--au3)}
 .cor{
   position:absolute;right:8px;top:8px;z-index:2;width:32px;height:32px;border-radius:999px;border:1px solid var(--linea);
@@ -1587,7 +1587,7 @@ function tarjeta(p, i){
     <div class="ph" onclick="abreFicha('${id}')">
       <div class="tags">
         ${hot ? `<span class="tg hot">🔥 Más pedido</span>` : ""}
-        ${barato && !hot ? `<span class="tg bar">Bajo $1.000</span>` : ""}
+        ${barato && !hot ? `<span class="tg barato">Bajo $1.000</span>` : ""}
         ${p.of ? `<span class="tg of">🏷️ ${p.of.q}x ${clp(p.of.p)}</span>` : ""}
         <span class="tg" style="--tgc:${(COLOR[p.c]||["#5A5265"])[0]}">${p.c}</span>
       </div>

@@ -58,11 +58,6 @@ const CATALOGO = [
   "c": "Limpieza"
  },
  {
-  "n": "LIMPIAVIDRIOS",
-  "p": 1000,
-  "c": "Limpieza"
- },
- {
   "n": "LUSTRAMUEBLES",
   "p": 3000,
   "c": "Limpieza"
@@ -108,12 +103,12 @@ const CATALOGO = [
   "c": "Desinfección"
  },
  {
-  "n": "ESPONJA ABSORBENTE x3",
+  "n": "PAÑO ESPONJA ABSORBENTE x3",
   "p": 1000,
   "c": "Accesorios"
  },
  {
-  "n": "PRESTOBARBA 3 HOJAS",
+  "n": "PRESTOBARBA HOMBRE 3 HOJAS",
   "p": 1300,
   "c": "Cuidado personal"
  },
@@ -266,11 +261,6 @@ const CATALOGO = [
   "n": "ESPONJA SCRUP",
   "p": 1000,
   "c": "Accesorios"
- },
- {
-  "n": "PAPEL NOVA CLASICA",
-  "p": 1000,
-  "c": "Papel"
  },
  {
   "n": "CLORO CONCENTRADO IMPEKE",
