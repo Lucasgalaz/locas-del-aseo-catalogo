@@ -1227,10 +1227,8 @@ footer{background:var(--negro);color:#fff;padding:56px 0 30px;margin-top:60px;po
 const WHATSAPP    = "56992513608";
 const ENVIO_MIN   = 30000;
 const ENVIO_COSTO = 3000;
-const COMUNAS     = ["Peñalolén","Macul","La Reina"];
-
-/* Todas las comunas de la Región Metropolitana — solo para el buscador
-   "¿Llegamos a tu comuna?". No cambia dónde repartimos: eso lo decide COMUNAS. */
+/* Repartimos nosotras mismas, mismo día, en toda la Región Metropolitana
+   (pedidos antes de las 18:00, lunes a sábado). */
 const TODAS_COMUNAS_RM = [
   "Alhué","Buin","Calera de Tango","Cerrillos","Cerro Navia","Colina","Conchalí","Curacaví",
   "El Bosque","El Monte","Estación Central","Huechuraba","Independencia","Isla de Maipo",
@@ -1266,8 +1264,8 @@ const VITRINA = [
 ];
 
 const FAQ = [
-  { q:"¿Cuánto se demora en llegar?", r:"En Peñalolén, Macul y La Reina: si pides antes de las 18:00 de lunes a sábado, te llega el mismo día; después de esa hora, a primera hora del día siguiente. Al resto de la Región Metropolitana lo enviamos vía Courier, entre 1 y 3 días hábiles. Te confirmamos por WhatsApp apenas recibimos el pedido." },
-  { q:"¿Cuánto cuesta el despacho?", r:"Sobre $30.000 el despacho es gratis en cualquier comuna de la Región Metropolitana. Bajo ese monto, son $3.000. En Peñalolén, Macul y La Reina lo llevamos nosotras mismas (mismo día); al resto de la Región Metropolitana lo enviamos vía Courier (BlueExpress, Starken o Correos)." },
+  { q:"¿Cuánto se demora en llegar?", r:"En toda la Región Metropolitana: si pides antes de las 18:00 de lunes a sábado, te llega el mismo día; después de esa hora, a primera hora del día siguiente. Nosotras mismas te lo llevamos, no usamos courier. Te confirmamos por WhatsApp apenas recibimos el pedido." },
+  { q:"¿Cuánto cuesta el despacho?", r:"Sobre $30.000 el despacho es gratis en cualquier comuna de la Región Metropolitana. Bajo ese monto, son $3.000. Siempre lo llevamos nosotras mismas, el mismo día si pides antes de las 18:00." },
   { q:"¿Cómo pago?", r:"Al recibir, en efectivo o por transferencia. Nos confirmas la forma de pago por WhatsApp al cerrar tu pedido. El pago con tarjeta en la web viene más adelante." },
   { q:"¿Necesito crear una cuenta?", r:"No. Armas el carro, tocas enviar y el pedido se escribe solo en tu WhatsApp. Nada de registros ni contraseñas." },
   { q:"¿Puedo pedir algo que no está en el catálogo?", r:"Sí. Escríbenos por WhatsApp y te decimos si lo conseguimos y a qué precio." },
@@ -1463,7 +1461,7 @@ const FRASES = [
   "✨ Que no falte el brillo",
   "Despacho <b>gratis</b> sobre $30.000 (toda la Región Metropolitana)",
   "🫧 Ahorra sin dejar de brillar",
-  "Peñalolén · Macul · La Reina · Envíos a toda la Región Metropolitana",
+  "Entrega propia el mismo día en toda la Región Metropolitana",
   "<b>Llega el mismo día</b>",
   "Pagas al recibir · efectivo o transferencia",
 ].join(" &nbsp;·&nbsp; ") + " &nbsp;·&nbsp; ";
@@ -1479,7 +1477,7 @@ $("tkIn").innerHTML = `<span>${FRASES}</span><span>${FRASES}</span>`;
 ["waTop","waHead","waFoot"].forEach(k => $(k).href = `https://wa.me/${WHATSAPP}`);
 $("nProd").textContent = CATALOGO.length;
 $("anio").textContent  = new Date().getFullYear();
-$("ftComunas").textContent = COMUNAS.join(" · ");
+$("ftComunas").textContent = "Toda la Región Metropolitana";
 $("ftCats").innerHTML = CATS.map(c =>
   `<a href="#catalogo" onclick="filtraCat('${c}')">${emoji(c)} ${c}</a>`).join("");
 
@@ -2185,16 +2183,13 @@ function revisaZona(){
   document.querySelectorAll(".z-der .cm").forEach(x => x.classList.remove("hit"));
   if (!c){ r.className = "z-res"; return; }
   const e = estadoEntrega();
-  if (COMUNAS.includes(c)){
+  if (TODAS_COMUNAS_RM.includes(c)){
     document.querySelectorAll(`.z-der .cm[data-c="${c}"]`).forEach(x => x.classList.add("hit"));
     r.className = "z-res on si";
     r.innerHTML = `🫧 Sí llegamos a <b>${c}</b> · ${e.hoy ? "si pides ahora, te llega hoy" : "el reparto de hoy ya cerró: llega mañana temprano"}. Despacho gratis sobre ${clp(ENVIO_MIN)}, bajo ese monto son ${clp(ENVIO_COSTO)}.`;
   } else if (c === "otra"){
     r.className = "z-res on no";
     r.innerHTML = `📍 Escríbenos y coordinamos tu envío.`;
-  } else {
-    r.className = "z-res on si";
-    r.innerHTML = `🫧 Sí llegamos a <b>${c}</b> vía Courier (1 a 3 días hábiles). Despacho gratis sobre ${clp(ENVIO_MIN)}, bajo ese monto son ${clp(ENVIO_COSTO)}.`;
   }
 }
 $("zComuna").onchange = revisaZona;
