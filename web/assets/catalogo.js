@@ -2,7 +2,7 @@
 const CATALOGO = [
  {
   "n": "GLADE SPRAY LAVANDA 240ML",
-  "p": 1700,
+  "p": 1790,
   "c": "Limpieza",
   "of": {
    "q": 2,
